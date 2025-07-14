@@ -4,8 +4,6 @@ import {ApiService} from '../api.service';
 import { CommonModule, JsonPipe } from '@angular/common';
 
 
-
-
 @Component({
   selector: 'app-joli-bouton',
   standalone: true,

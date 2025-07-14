@@ -6,8 +6,10 @@ import { firstValueFrom } from 'rxjs';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  async getData(): Promise<any> {
+  async getData(path?: string): Promise<any> {
     // Remplace l’URL par celle de ton API
-    return firstValueFrom(this.http.get('https://jsonplaceholder.typicode.com/users'));
+    const baseUrl = 'https://jsonplaceholder.typicode.com/users';
+    const url = path ? `${baseUrl}/${path}` : baseUrl;
+    return firstValueFrom(this.http.get(url));
   }
 }
