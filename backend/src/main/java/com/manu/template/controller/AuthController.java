@@ -3,12 +3,14 @@ package com.manu.template.controller;
 import com.manu.template.dto.UserRegistrationDTO;
 import com.manu.template.dto.UserLoginDTO;
 import com.manu.template.dto.JwtResponseDTO;
+import com.manu.template.model.User;
 import com.manu.template.security.AuthService;
 import com.manu.template.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,4 +37,21 @@ public class AuthController {
         userService.registerNewAdmin(user);
         return ResponseEntity.ok("Registration successful");
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body("Utilisateur non authentifié");
+        }
+        return ResponseEntity.ok(new UserInfo(user.getUsername()));
+    }
+
+    public static class UserInfo {
+        public String username;
+
+        public UserInfo(String username) {
+            this.username = username;
+        }
+    }
+
 }

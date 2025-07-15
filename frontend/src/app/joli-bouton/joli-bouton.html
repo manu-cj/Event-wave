@@ -1,5 +1,10 @@
 <button mat-raised-button color="warn" (click)="charger()" [disabled]="loading">
   Charger les données
 </button>
-<div *ngIf="loading">Chargement...</div>
-<div *ngIf="data">{{ data | json }}</div>
+@if (loading) {
+  <div>Chargement...</div>
+}
+@if (data) {
+  <div>{{ data | json }}</div>
+}
+

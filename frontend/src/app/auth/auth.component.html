@@ -1,0 +1,23 @@
+<mat-card class="auth-card">
+  <form (ngSubmit)="onLogin()" class="auth-form">
+    <h2 class="auth-title">Connexion</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom d'utilisateur</mat-label>
+      <input matInput [(ngModel)]="username" name="username" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" [(ngModel)]="password" name="password" required />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" class="full-width login-button">
+      <mat-icon class="login-icon">login</mat-icon>
+      Se connecter
+    </button>
+
+    <div *ngIf="success" class="message success">{{ success }}</div>
+    <div *ngIf="error" class="message error">{{ error }}</div>
+  </form>
+</mat-card>

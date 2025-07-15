@@ -1,0 +1,73 @@
+.auth-card {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.auth-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.full-width {
+  width: 100%;
+  background-color: white;
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.login-icon {
+  font-size: 20px;
+}
+
+.message {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.success {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.error {
+  color: #c62828;
+  background-color: #ffebee;
+  border: 1px solid #ef9a9a;
+}
+
+/* src/app/auth/auth.component.css */
+.login-icon {
+  font-size: 24px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+}

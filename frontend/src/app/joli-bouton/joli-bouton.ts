@@ -20,7 +20,7 @@ export class JoliBouton {
   async charger() {
     this.loading = true;
     try {
-      this.data = await this.api.getData();
+      this.data = await this.api.getData("products");
     } finally {
       this.loading = false;
     }
