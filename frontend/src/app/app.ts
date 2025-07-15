@@ -5,7 +5,7 @@ import {JoliBouton} from './joli-bouton/joli-bouton';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, JoliBouton],
+  imports: [RouterOutlet],
   template: `<router-outlet></router-outlet>`,
   styleUrl: './app.css'
 

@@ -16,8 +16,11 @@
       <mat-icon class="login-icon">login</mat-icon>
       Se connecter
     </button>
-
-    <div *ngIf="success" class="message success">{{ success }}</div>
-    <div *ngIf="error" class="message error">{{ error }}</div>
+    @if (success) {
+      <div class="message success">{{ success }}</div>
+    }
+    @if (error) {
+      <div class="message error">{{ error }}</div>
+    }
   </form>
 </mat-card>
