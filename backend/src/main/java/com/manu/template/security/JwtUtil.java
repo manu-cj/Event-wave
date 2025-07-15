@@ -14,9 +14,12 @@ public class JwtUtil {
     @Value("${jwt.expirationMs}")
     private int jwtExpirationMs;
 
-    public String generateToken(String username, Set<String> roles) {
+    public String generateToken(String username, String firstname, String lastname, String email, Set<String> roles) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
+                .claim("username", username)
+                .claim("firstname", firstname)
+                .claim("lastname", lastname)
                 .claim("roles", String.join(",", roles))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))

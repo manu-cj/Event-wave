@@ -57,3 +57,15 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
+`ngOnInit` est une méthode du cycle de vie d’un composant Angular.  
+Utilise-la dans la classe de ton composant (ex : `dashboard.component.ts`) pour exécuter du code lors de l’initialisation du composant, comme des appels API ou l’initialisation de variables.
+
+Exemple :
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+

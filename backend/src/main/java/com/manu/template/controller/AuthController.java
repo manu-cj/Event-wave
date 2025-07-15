@@ -1,5 +1,6 @@
 package com.manu.template.controller;
 
+import com.manu.template.dto.UserInfoDTO;
 import com.manu.template.dto.UserRegistrationDTO;
 import com.manu.template.dto.UserLoginDTO;
 import com.manu.template.dto.JwtResponseDTO;
@@ -9,9 +10,11 @@ import com.manu.template.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,19 +42,19 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal User user) {
+    public ResponseEntity<UserInfoDTO> getCurrentUser(@AuthenticationPrincipal User user) {
         if (user == null) {
-            return ResponseEntity.status(401).body("Utilisateur non authentifié");
-        }
-        return ResponseEntity.ok(new UserInfo(user.getUsername()));
-    }
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Utilisateur non authentifié");
 
-    public static class UserInfo {
-        public String username;
-
-        public UserInfo(String username) {
-            this.username = username;
         }
+        UserInfoDTO userInfo = new UserInfoDTO(
+                user.getUsername(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getEmail(),
+                String.join(",", user.getRoles())
+        );
+        return ResponseEntity.ok(userInfo);
     }
 
 }

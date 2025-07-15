@@ -20,14 +20,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public JwtResponseDTO authenticate(UserLoginDTO loginDTO) {
-        User user = userRepository.findByUsername(loginDTO.getUsername())
+        User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid credentials");
         }
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRoles());
+                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+        String token = jwtUtil.generateToken(user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail(),user.getRoles());
         return new JwtResponseDTO(token);
     }
 }

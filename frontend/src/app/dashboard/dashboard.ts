@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service';
-import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,9 +9,12 @@ import {Router} from '@angular/router';
   styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
-  username = '';
-  email = '';
-  role = '';
+  user = {
+    username: "",
+    email: "",
+    role: ""
+  }
+
 
 
   constructor(
@@ -22,20 +24,23 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    if (token) {
-      this.api.getUserInfo(token).then((result: any) => {
-        if (result) {
-          console.log(result);
-          this.username = result.username;
-          this.email = result.email;
-          this.role = result.role;
-        }
-        else {
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.api.getUserInfo(token)
+      .then((result: any) => {
+        if (result?.username && result?.email && result?.role) {
+          this.user.username = result.username;
+          this.user.email = result.email;
+          this.user.role = result.role;
+        } else {
           this.router.navigate(['/login']);
         }
-      }).catch((e) => {
+      })
+      .catch(() => {
         this.router.navigate(['/login']);
       });
-    }
   }
 }

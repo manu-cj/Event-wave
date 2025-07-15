@@ -38,8 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
             try {
                 if (jwtUtil.validateJwtToken(token)) {
-                    String username = jwtUtil.getUsernameFromToken(token);
-                    User user = userRepository.findByUsername(username)
+                    String email = jwtUtil.getUsernameFromToken(token);
+                    User user = userRepository.findByEmail(email)
                             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
                     Set<SimpleGrantedAuthority> authorities = user.getRoles().stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

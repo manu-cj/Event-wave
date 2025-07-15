@@ -1,4 +1,19 @@
-<p >dashboard works! {{username}} </p>
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<div class="p-6">
+  <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">User Information</h2>
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <p class="text-gray-600 font-medium">Username:</p>
+        <p>{{ user?.username }}</p>
+      </div>
+      <div>
+        <p class="text-gray-600 font-medium">Email:</p>
+        <p>{{ user?.email }}</p>
+      </div>
+      <div>
+        <p class="text-gray-600 font-medium">Role:</p>
+        <p>{{ user?.role }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,9 @@ public class UserService {
     public User registerNewUser(UserRegistrationDTO registrationDTO) {
         User user = User.builder()
                 .username(registrationDTO.getUsername())
+                .email(registrationDTO.getEmail())
+                .firstname(registrationDTO.getFirstname())
+                .lastname(registrationDTO.getLastname())
                 .password(passwordEncoder.encode(registrationDTO.getPassword()))
                 .roles(Collections.singleton("USER"))
                 .build();
@@ -28,6 +31,9 @@ public class UserService {
     public User registerNewAdmin(UserRegistrationDTO registrationDTO) {
         User user = User.builder()
                 .username(registrationDTO.getUsername())
+                .email(registrationDTO.getEmail())
+                .firstname(registrationDTO.getFirstname())
+                .lastname(registrationDTO.getLastname())
                 .password(passwordEncoder.encode(registrationDTO.getPassword()))
                 .roles(Collections.singleton("ADMIN"))
                 .build();
