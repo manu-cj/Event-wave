@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {ApiService} from '../api.service';
+import {ApiService} from '../service/api.service';
 import { CommonModule, JsonPipe } from '@angular/common';
 
 

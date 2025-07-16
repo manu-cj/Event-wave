@@ -1,12 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import { ApiService } from '../api.service';
+import { UserService } from '../service/user.service';
 import {Router} from '@angular/router';
+import {IUser} from '../models/user.model';
+import {NavbarComponent} from '../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [
+    NavbarComponent
+  ],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
   user = {
@@ -18,29 +21,30 @@ export class Dashboard implements OnInit {
 
 
   constructor(
-    private api: ApiService,
+    private api: UserService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const token = localStorage.getItem('token');
     if (!token) {
-      this.router.navigate(['/login']);
+      await this.router.navigate(['/login']);
       return;
     }
 
-    this.api.getUserInfo(token)
-      .then((result: any) => {
+    this.api.getUserInfo(token).subscribe({
+      next: async (result: IUser) => {
         if (result?.username && result?.email && result?.role) {
           this.user.username = result.username;
           this.user.email = result.email;
           this.user.role = result.role;
         } else {
-          this.router.navigate(['/login']);
+          await this.router.navigate(['/login']);
         }
-      })
-      .catch(() => {
-        this.router.navigate(['/login']);
-      });
+      },
+      error: async () => {
+        await this.router.navigate(['/login']);
+      }
+    });
   }
 }

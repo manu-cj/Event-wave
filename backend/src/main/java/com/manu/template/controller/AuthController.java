@@ -16,6 +16,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Auth")
@@ -25,9 +28,11 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid UserRegistrationDTO user) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody @Valid UserRegistrationDTO user) {
         userService.registerNewUser(user);
-        return ResponseEntity.ok("Registration successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Registration successful");
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
@@ -36,9 +41,12 @@ public class AuthController {
     }
 
     @PostMapping("/register/admin")
-    public ResponseEntity<String> registerAdmin(@RequestBody @Valid UserRegistrationDTO user) {
+    public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody @Valid UserRegistrationDTO user) {
         userService.registerNewAdmin(user);
-        return ResponseEntity.ok("Registration successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Registration Admin successful");
+        response.put("status", "success");
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
