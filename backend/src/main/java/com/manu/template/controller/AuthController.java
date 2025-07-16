@@ -27,6 +27,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthService authService;
 
+
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody @Valid UserRegistrationDTO user) {
         userService.registerNewUser(user);

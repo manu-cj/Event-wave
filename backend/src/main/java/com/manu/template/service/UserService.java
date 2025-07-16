@@ -1,9 +1,13 @@
 package com.manu.template.service;
 
+import com.manu.template.dto.UserInfoDTO;
 import com.manu.template.dto.UserRegistrationDTO;
+import com.manu.template.mapper.UserMapper;
 import com.manu.template.model.User;
 import com.manu.template.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +42,10 @@ public class UserService {
                 .roles(Collections.singleton("ADMIN"))
                 .build();
         return userRepository.save(user);
+    }
+
+    public Page<UserInfoDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(UserMapper::toDto);
     }
 }
