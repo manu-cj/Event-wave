@@ -10,7 +10,6 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,7 +24,7 @@ public class Event {
 
     @Column(nullable = false, length = 50)
     private String description;
-    
+
     @Column(nullable = false)
     private LocalDateTime date;
 
