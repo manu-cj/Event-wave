@@ -39,7 +39,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onLogout() {
+  async onLogout() : Promise<void> {
     this.auth.clearToken();
+    await this.router.navigate(['/login']);
   }
 }

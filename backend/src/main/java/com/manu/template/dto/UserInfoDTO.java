@@ -1,14 +1,15 @@
 package com.manu.template.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.util.UUID;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class UserInfoDTO {
-    private long id;
+    private UUID id;
     private String username;
     private String firstname;
     private String lastname;
