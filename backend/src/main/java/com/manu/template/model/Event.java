@@ -29,13 +29,13 @@ public class Event {
     private LocalDateTime date;
 
     @Column(nullable = false, length = 50)
-    private String ville;
+    private String city;
 
     @Column(nullable = false)
     private int postalCode;
 
     @Column(nullable = false, length = 50)
-    private String street;
+    private String address;
 
     @Column(nullable = false)
     private int availablePlaces;

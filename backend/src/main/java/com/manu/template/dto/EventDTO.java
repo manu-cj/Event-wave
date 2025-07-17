@@ -27,14 +27,17 @@ public class EventDTO {
     private LocalDateTime date;
 
     @jakarta.validation.constraints.Size(max = 50)
-    private String ville;
+    private String city;
 
     @jakarta.validation.constraints.Positive
     private int postalCode;
 
     @jakarta.validation.constraints.Size(max = 100)
-    private String street;
+    private String address;
 
     @jakarta.validation.constraints.Positive
     private int availablePlaces;
+
+    @NotBlank
+    private String pictureUrl;
 }

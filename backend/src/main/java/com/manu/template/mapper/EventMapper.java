@@ -12,9 +12,11 @@ public class EventMapper {
                 .description(event.getDescription())
                 .availablePlaces(event.getAvailablePlaces())
                 .date(event.getDate())
-                .ville(event.getVille())
+                .city(event.getCity())
                 .postalCode(event.getPostalCode())
-                .street(event.getStreet())
+                .address(event.getAddress())
+                .availablePlaces(event.getAvailablePlaces())
+                .pictureUrl(event.getPictureUrl())
                 .build();
     }
 
@@ -25,9 +27,10 @@ public class EventMapper {
                 .description(dto.getDescription())
                 .availablePlaces(dto.getAvailablePlaces())
                 .date(dto.getDate())
-                .ville(dto.getVille())
+                .city(dto.getCity())
                 .postalCode(dto.getPostalCode())
-                .street(dto.getStreet())
+                .address(dto.getAddress())
+                .availablePlaces(dto.getAvailablePlaces())
                 .build();
     }
 }
