@@ -6,6 +6,7 @@ import com.manu.template.model.User;
 public class UserMapper {
     public static UserInfoDTO toDto(User user) {
         return UserInfoDTO.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .firstname(user.getFirstname())

@@ -57,6 +57,7 @@ public class AuthController {
 
         }
         UserInfoDTO userInfo = new UserInfoDTO(
+                user.getId(),
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),

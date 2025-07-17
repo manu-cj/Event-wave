@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../service/auth.service';
-import { UserService } from '../service/user.service';
-import {ILogin} from '../models/user.model';
+import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
+import {ILogin} from '../../models/user.model';
 
 @Component({
   selector: 'app-auth',

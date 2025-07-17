@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../service/user.service';
 import {Router} from '@angular/router';
-import {IUser} from '../models/user.model';
-import {NavbarComponent} from '../components/navbar/navbar.component';
+import {IUser, IUserPage} from '../../models/user.model';
+import {NavbarComponent} from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +17,10 @@ export class Dashboard implements OnInit {
     email: "",
     role: ""
   }
+
+  userPage: IUserPage | null = null;
+  page: number = 0;
+  pageSize: number = 10;
 
 
 
@@ -46,5 +50,27 @@ export class Dashboard implements OnInit {
         await this.router.navigate(['/login']);
       }
     });
+
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.api.getUsers(this.page, this.pageSize).subscribe({
+      next: async (result: IUserPage) => {
+        this.userPage = result;
+      }
+    });
+  }
+
+  nextPage() {
+    this.page++;
+    this.loadUsers();
+  }
+
+  prevPage() {
+    if (this.page > 0) {
+      this.page--;
+      this.loadUsers();
+    }
   }
 }

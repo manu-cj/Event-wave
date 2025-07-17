@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {firstValueFrom, Observable} from 'rxjs';
-import {ILogin, IRegister, IUser} from '../models/user.model';
+import {ILogin, IRegister, IUser, IUserPage} from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,10 @@ export class UserService {
 
   async postAdmin(user: IRegister): Promise<IRegister> {
     return firstValueFrom(this.http.post<IRegister>(`${this.baseUrl}/auth/register/admin`, user));
+  }
+
+  getUsers(page: number, size: number): Observable<IUserPage> {
+    return this.http.get<IUserPage>(`${this.baseUrl}/users?page=${page}&size=${size}`);
   }
 
 

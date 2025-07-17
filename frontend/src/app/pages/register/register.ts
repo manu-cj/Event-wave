@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {ApiService} from '../service/api.service';
-import {UserService} from '../service/user.service';
-import {AuthService} from '../service/auth.service';
+import {ApiService} from '../../service/api.service';
+import {UserService} from '../../service/user.service';
+import {AuthService} from '../../service/auth.service';
 import { Router } from '@angular/router';
-import {IRegister} from '../models/user.model';
-import {NavbarComponent} from '../components/navbar/navbar.component';
+import {IRegister} from '../../models/user.model';
+import {NavbarComponent} from '../../components/navbar/navbar.component';
 
 
 
