@@ -3,11 +3,15 @@ import { UserService } from '../../service/user.service';
 import {Router} from '@angular/router';
 import {IUser, IUserPage} from '../../models/user.model';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
+import {Modal} from '../../components/modal/modal';
+import {EventFormComponent} from '../../components/event-form/event-form';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
-    NavbarComponent
+    NavbarComponent,
+    Modal,
+    EventFormComponent
   ],
   templateUrl: './dashboard.html',
 })
@@ -17,10 +21,10 @@ export class Dashboard implements OnInit {
     email: "",
     role: ""
   }
-
   userPage: IUserPage | null = null;
   page: number = 0;
   pageSize: number = 10;
+  isModalOpen: boolean = false;
 
 
 
@@ -72,5 +76,13 @@ export class Dashboard implements OnInit {
       this.page--;
       this.loadUsers();
     }
+  }
+
+  test() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 }
