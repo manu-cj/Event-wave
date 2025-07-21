@@ -25,6 +25,8 @@ export class Dashboard implements OnInit {
   page: number = 0;
   pageSize: number = 10;
   isModalOpen: boolean = false;
+  token: string = '';
+
 
 
 
@@ -39,7 +41,7 @@ export class Dashboard implements OnInit {
       await this.router.navigate(['/login']);
       return;
     }
-
+    this.token = token;
     this.api.getUserInfo(token).subscribe({
       next: async (result: IUser) => {
         if (result?.username && result?.email && result?.role) {

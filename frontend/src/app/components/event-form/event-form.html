@@ -1,11 +1,32 @@
 <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
   <div class="mb-4">
-    <label class="block mb-1">Nom de l'événement</label>
-    <input type="text" name="name" [(ngModel)]="event.name" required class="border rounded px-3 py-2 w-full" />
+    <label class="block mb-1">Event name</label>
+    <input type="text" name="name" [(ngModel)]="event.title" required class="border rounded px-3 py-2 w-full" />
+  </div>
+  <div class="mb-4">
+    <label class="block mb-1">Event description</label>
+    <input type="text" name="description" [(ngModel)]="event.description" required class="border rounded px-3 py-2 w-full" />
   </div>
   <div class="mb-4">
     <label class="block mb-1">Date</label>
-    <input type="date" name="date" [(ngModel)]="event.date" required class="border rounded px-3 py-2 w-full" />
+    <input type="datetime-local" name="date" [(ngModel)]="event.date" required class="border rounded px-3 py-2 w-full" />
   </div>
+  <div class="mb-4">
+    <label class="block mb-1">City</label>
+    <input type="text" name="city" [(ngModel)]="event.city" required class="border rounded px-3 py-2 w-full" />
+  </div>
+  <div class="mb-4">
+    <label class="block mb-1">Postal code</label>
+    <input type="number" name="postalCode" [(ngModel)]="event.postalCode" required class="border rounded px-3 py-2 w-full" />
+  </div>
+  <div class="mb-4">
+    <label class="block mb-1">Address</label>
+    <input type="text" name="address" [(ngModel)]="event.address" required class="border rounded px-3 py-2 w-full" />
+  </div>
+  <div class="mb-4">
+    <label class="block mb-1">Available Places</label>
+    <input type="number" name="availablePlaces" [(ngModel)]="event.availablePlaces" required class="border rounded px-3 py-2 w-full" />
+  </div>
+  <input type="file" name="image" (change)="onImageSelected($event)" accept="image/*" class="block mt-2" />
   <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Créer</button>
 </form>

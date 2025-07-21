@@ -25,7 +25,11 @@ public class FileService {
             throw new IllegalArgumentException("File too large");
         }
         String uploadDir = System.getProperty("event.upload.dir", "uploads/");
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String originalFileName = file.getOriginalFilename();
+        if (originalFileName == null || originalFileName.contains("..") || originalFileName.contains("/") || originalFileName.contains("\\")) {
+            throw new IllegalArgumentException("File name invalid");
+        }
+        String fileName = UUID.randomUUID() + "_" + originalFileName;
         Path filePath = Paths.get(uploadDir, fileName);
         Files.createDirectories(filePath.getParent());
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);

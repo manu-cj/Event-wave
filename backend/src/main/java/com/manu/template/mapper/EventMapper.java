@@ -31,6 +31,7 @@ public class EventMapper {
                 .postalCode(dto.getPostalCode())
                 .address(dto.getAddress())
                 .availablePlaces(dto.getAvailablePlaces())
+                .pictureUrl(dto.getPictureUrl())
                 .build();
     }
 }

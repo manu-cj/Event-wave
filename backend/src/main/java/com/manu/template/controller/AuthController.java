@@ -43,11 +43,18 @@ public class AuthController {
 
     @PostMapping("/register/admin")
     public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody @Valid UserRegistrationDTO user) {
-        userService.registerNewAdmin(user);
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Registration Admin successful");
-        response.put("status", "success");
-        return ResponseEntity.ok(response);
+        try {
+            userService.registerNewAdmin(user);
+            response.put("message", "Registration Admin successful");
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // TODO Enlever e.getMessage en production
+            response.put("message", "Erreur occurred when registration Admin " + e.getMessage());
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     @GetMapping("/me")

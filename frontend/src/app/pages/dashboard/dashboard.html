@@ -44,5 +44,5 @@
   <button (click)="test()">Create event</button>
 </div>
 <app-modal [isOpen]="isModalOpen" (close)="closeModal()">
-  <app-event-form></app-event-form>
+  <app-event-form [token]="token"></app-event-form>
 </app-modal>

@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -45,12 +48,13 @@ public class EventController {
     @Operation(summary = "Create new event")
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<EventDTO> createEvent(
+    public ResponseEntity<Map<String, String>> createEvent(
             @RequestPart("event") EventDTO eventDTO,
             @RequestPart("file") MultipartFile file) {
 
         String fileUrl;
 
+        // Verify picture
         try {
             fileUrl = fileService.storeImage(file);
         } catch (IllegalArgumentException e) {
@@ -58,8 +62,18 @@ public class EventController {
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body(null);
         }
-        eventDTO.setPictureUrl(fileUrl);
-        return ResponseEntity.ok(eventService.save(eventDTO));
-    }
+        Map<String, String> response = new HashMap<>();
+        eventDTO.setPictureUrl(fileUrl != null ? fileUrl : "/uploads/default.jpg");
 
+        try {
+            eventService.save(eventDTO);
+            response.put("message", "Event add with success !");
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("message", "Error occurred when add event ! " + e.getMessage());
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
 }

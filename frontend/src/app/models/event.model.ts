@@ -5,11 +5,10 @@ export interface IEvent {
   description: string;
   date: Date;
   city: string;
-  postalCode: string;
+  postalCode: number;
   address: string;
   availablePlaces: number;
-  pictureUrl: string;
-
+  pictureUrl?: string;
 }
 
 export interface IEventPage {

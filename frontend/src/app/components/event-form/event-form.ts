@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {IEvent, IEventPage} from '../../models/event.model';
+import {EventService} from '../../service/event.service';
 
 @Component({
   selector: 'app-event-form',
@@ -7,10 +9,33 @@ import {FormsModule} from '@angular/forms';
   imports: [FormsModule]
 })
 export class EventFormComponent {
-  event = { name: '', date: '' };
+  @Input() token!: string;
+  event: IEvent = {} as IEvent;
+  selectedImage?: File;
+  success = '';
+  error = '';
 
-  onSubmit() {
+  constructor(
+    private eventApi: EventService,
+  ) {}
+
+  async onSubmit() {
     // Traitement du formulaire (ex : appel API)
-    console.log('Événement créé :', this.event);
+    if (this.selectedImage) {
+      const result : any = await this.eventApi.postEvent(this.event, this.token, this.selectedImage);
+      
+    } else {
+      console.log('Aucune image sélectionnée');
+    }
+  }
+
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedImage = file;
+      console.log(file);
+    }
   }
 }

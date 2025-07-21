@@ -40,7 +40,7 @@ public class Event {
     @Column(nullable = false)
     private int availablePlaces;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 255)
     private String pictureUrl;
 
 }
