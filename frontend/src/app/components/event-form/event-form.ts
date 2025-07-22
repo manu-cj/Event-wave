@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {IEvent, IEventPage} from '../../models/event.model';
+import {IEvent} from '../../models/event.model';
 import {EventService} from '../../service/event.service';
 
 @Component({
@@ -12,7 +12,9 @@ export class EventFormComponent {
   @Input() token!: string;
   event: IEvent = {} as IEvent;
   selectedImage?: File;
-  selectedFileName: string = 'No file selected'
+  selectedFileName: string = 'No file selected';
+  page: number = 0;
+  pageSize: number = 10;
   success = '';
   error = '';
 
@@ -58,4 +60,6 @@ export class EventFormComponent {
       console.log(file);
     }
   }
+
+
 }
