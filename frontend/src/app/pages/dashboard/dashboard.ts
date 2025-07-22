@@ -4,8 +4,14 @@ import {Router} from '@angular/router';
 import {IUser, IUserPage} from '../../models/user.model';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
 import {Modal} from '../../components/modal/modal';
+import {UsersList} from '../../components/users-list/usersList.component';
 import {EventFormComponent} from '../../components/event-form/event-form';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass} from '@angular/common';
+import {IEventPage} from '../../models/event.model';
+import {EventService} from '../../service/event.service';
+import {EventsList} from '../../components/events-list/eventsList.component';
+import {LucideAngularModule, Users, CalendarRange, X} from 'lucide-angular';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +19,10 @@ import {NgOptimizedImage} from '@angular/common';
     NavbarComponent,
     Modal,
     EventFormComponent,
-    NgOptimizedImage
+    UsersList,
+    EventsList,
+    NgClass,
+    LucideAngularModule
   ],
   templateUrl: './dashboard.html',
 })
@@ -23,18 +32,24 @@ export class Dashboard implements OnInit {
     email: "",
     role: ""
   }
+  viewMode: 'users' | 'events' = 'users';
   userPage: IUserPage | null = null;
+  eventPage: IEventPage = {} as IEventPage;
   page: number = 0;
   pageSize: number = 10;
   isModalOpen: boolean = false;
   token: string = '';
+
+  readonly Users = Users;
+  readonly CalendarRange = CalendarRange;
 
 
 
 
   constructor(
     private api: UserService,
-    private router: Router
+    private router: Router,
+    private eventApi: EventService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -60,9 +75,10 @@ export class Dashboard implements OnInit {
     });
 
     this.loadUsers();
+    this.loadEvents();
   }
 
-  loadUsers() {
+  loadUsers() : void {
     this.api.getUsers(this.page, this.pageSize).subscribe({
       next: async (result: IUserPage) => {
         this.userPage = result;
@@ -70,23 +86,35 @@ export class Dashboard implements OnInit {
     });
   }
 
-  nextPage() {
-    this.page++;
-    this.loadUsers();
+  loadEvents() : void {
+    this.eventApi.getEvents(this.page, this.pageSize).subscribe({
+      next: async (result: IEventPage) => {
+        this.eventPage = result;
+      }
+    })
   }
 
-  prevPage() {
+  nextPage() : void {
+    this.page++;
+    this.loadUsers();
+    this.loadEvents();
+  }
+
+  prevPage() : void {
     if (this.page > 0) {
       this.page--;
       this.loadUsers();
+      this.loadEvents();
     }
   }
 
-  test() {
+  openModal() {
     this.isModalOpen = true;
   }
 
   closeModal() {
     this.isModalOpen = false;
   }
+
+  protected readonly X = X;
 }

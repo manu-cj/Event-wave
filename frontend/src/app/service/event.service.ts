@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {IEvent} from '../models/event.model';
-import {firstValueFrom} from 'rxjs';
+import {IEvent, IEventPage} from '../models/event.model';
+import {firstValueFrom, Observable} from 'rxjs';
 
 
 @Injectable({
@@ -11,6 +11,7 @@ export class EventService {
   private baseUrl = 'http://localhost:8081/api';
 
   constructor(private http: HttpClient) {}
+
   async postEvent(event: IEvent, token: string, file?: File): Promise<IEvent> {
     const formData = new FormData();
     formData.append('event', new Blob([JSON.stringify(event)], { type: 'application/json' }));
@@ -22,5 +23,10 @@ export class EventService {
     });
     return firstValueFrom(this.http.post<IEvent>(`${this.baseUrl}/events`, formData, { headers }));
   }
+
+  getEvents(page:number, size:number): Observable<IEventPage> {
+    return this.http.get<IEventPage>(`${this.baseUrl}/events?page=${page}&size=${size}`);
+  }
+
 }
 
