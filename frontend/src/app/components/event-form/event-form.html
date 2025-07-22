@@ -1,32 +1,88 @@
-<form (ngSubmit)="onSubmit()" #eventForm="ngForm">
-  <div class="mb-4">
-    <label class="block mb-1">Event name</label>
-    <input type="text" name="name" [(ngModel)]="event.title" required class="border rounded px-3 py-2 w-full" />
+<form (ngSubmit)="onSubmit()" #eventForm="ngForm" class="max-w-4xl mx-auto bg-white px-20 py-10 space-y-8">
+  <h2 class="text-3xl font-bold text-center text-gray-800">Créer un événement</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Nom de l'événement</label>
+      <input type="text" name="name" [(ngModel)]="event.title" required
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Ex: Conférence Angular" />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Ville</label>
+      <input type="text" name="city" [(ngModel)]="event.city" required
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Ex: Paris" />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Date</label>
+      <input type="datetime-local" name="date" [(ngModel)]="event.date" required
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Code postal</label>
+      <input type="number" name="postalCode" [(ngModel)]="event.postalCode" required
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Ex: 75000" />
+    </div>
+
+    <div class="md:col-span-2 flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Adresse</label>
+      <input type="text" name="address" [(ngModel)]="event.address" required
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Ex: 10 rue de la Paix" />
+    </div>
+
+    <div class="md:col-span-2 flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Description</label>
+      <textarea name="description" [(ngModel)]="event.description" required rows="4"
+                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Décrivez votre événement..."></textarea>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Places disponibles</label>
+      <input type="number" name="availablePlaces" [(ngModel)]="event.availablePlaces" required min="1"
+             class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Ex: 100" />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label class="font-medium text-gray-700">Image</label>
+        <span class="sr-only">Choisir une image</span>
+        <input type="file" name="image" (change)="onImageSelected($event)" accept="image/*"
+               class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+         file:rounded-lg file:border-0 file:text-sm file:font-semibold
+         file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
+         transition cursor-pointer" style="display: none;" #fileInput />
+        <button type="button"
+                class="flex items-center gap-2 bg-white text-blue-800 px-5 py-2 border border-gray-300 rounded-lg font-semibold shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer"
+                (click)="fileInput.click()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12" />
+          </svg>
+          {{selectedFileName }}
+        </button>
+    </div>
   </div>
-  <div class="mb-4">
-    <label class="block mb-1">Event description</label>
-    <input type="text" name="description" [(ngModel)]="event.description" required class="border rounded px-3 py-2 w-full" />
+
+  <div class="flex justify-center">
+    <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 transition text-white px-8 py-3 rounded-lg font-semibold shadow-md cursor-pointer">
+      Créer
+    </button>
   </div>
-  <div class="mb-4">
-    <label class="block mb-1">Date</label>
-    <input type="datetime-local" name="date" [(ngModel)]="event.date" required class="border rounded px-3 py-2 w-full" />
-  </div>
-  <div class="mb-4">
-    <label class="block mb-1">City</label>
-    <input type="text" name="city" [(ngModel)]="event.city" required class="border rounded px-3 py-2 w-full" />
-  </div>
-  <div class="mb-4">
-    <label class="block mb-1">Postal code</label>
-    <input type="number" name="postalCode" [(ngModel)]="event.postalCode" required class="border rounded px-3 py-2 w-full" />
-  </div>
-  <div class="mb-4">
-    <label class="block mb-1">Address</label>
-    <input type="text" name="address" [(ngModel)]="event.address" required class="border rounded px-3 py-2 w-full" />
-  </div>
-  <div class="mb-4">
-    <label class="block mb-1">Available Places</label>
-    <input type="number" name="availablePlaces" [(ngModel)]="event.availablePlaces" required class="border rounded px-3 py-2 w-full" />
-  </div>
-  <input type="file" name="image" (change)="onImageSelected($event)" accept="image/*" class="block mt-2" />
-  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Créer</button>
+
+  @if (error || success) {
+    <div class="mt-6 p-4 rounded-md bg-red-50 border border-red-400 text-center">
+      <p class="text-red-700">{{ error }}</p>
+    </div>
+
+    <div class="mt-6 p-4 rounded-md bg-green-50 border border-green-400 text-center">
+      <p class="text-green-700">{{ success }}</p>
+    </div>
+  }
 </form>

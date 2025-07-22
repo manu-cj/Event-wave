@@ -17,14 +17,8 @@ import {NavbarComponent} from '../../components/navbar/navbar.component';
   templateUrl: './register.html',
 })
 export class Register implements OnInit{
- user = {
-    username: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    password: "",
-    passwordRepeat: ""
-  }
+  user : IRegister = {} as IRegister;
+  passwordRepeat = '';
   error = '';
   success = '';
 
@@ -53,43 +47,26 @@ export class Register implements OnInit{
   }
 
   async onRegister() {
-    if (this.user === undefined || this.user.password !== this.user.passwordRepeat) {
+    if (this.user === undefined || this.user.password !== this.passwordRepeat) {
       this.error = "Les mots de passe ne correspondent pas";
       return;
     }
-    console.log(
-      this.user.username,
-      this.user.email,
-      this.user.firstname,
-      this.user.lastname,
-      this.user.password
-    )
     try {
-      const user: IRegister = {
-        email: this.user.email,
-        username: this.user.username,
-        firstname: this.user.firstname,
-        lastname: this.user.lastname,
-        password: this.user.password
-      }
+
       /* TODO CHANGE IN postUser AFTER */
-      const result: any = await this.api.postAdmin(user);
+      const result: any = await this.api.postUser(this.user);
       console.log(result);
       if (result.status === 'success') {
         this.success = result.message;
         this.error = '';
         await this.router.navigate(['/login']);
-        console.log(user);
       }
-    /* TODO AFFICHE LES ERREURS */
+      else if (result.status === 'error') {
+        this.error = result.message;
+      }
     }
     catch (e) {
-      this.error = "Erreur lors de l'inscription";
-      console.log('Erreur lors de l\'inscription :', e, this.error);    }
+      this.error = "Error when registering :";
+    }
   }
-
-  handleLogout() {
-    this.auth.clearToken();
-  }
-
 }

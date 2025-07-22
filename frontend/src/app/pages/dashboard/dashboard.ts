@@ -5,13 +5,15 @@ import {IUser, IUserPage} from '../../models/user.model';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
 import {Modal} from '../../components/modal/modal';
 import {EventFormComponent} from '../../components/event-form/event-form';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     NavbarComponent,
     Modal,
-    EventFormComponent
+    EventFormComponent,
+    NgOptimizedImage
   ],
   templateUrl: './dashboard.html',
 })
