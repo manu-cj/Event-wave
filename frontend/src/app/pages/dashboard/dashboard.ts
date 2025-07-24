@@ -10,7 +10,7 @@ import {NgClass} from '@angular/common';
 import {IEventPage} from '../../models/event.model';
 import {EventService} from '../../service/event.service';
 import {EventsList} from '../../components/events-list/eventsList.component';
-import {LucideAngularModule, Users, CalendarRange, X} from 'lucide-angular';
+import {LucideAngularModule, Users, CalendarRange, X, Plus} from 'lucide-angular';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class Dashboard implements OnInit {
 
   readonly Users = Users;
   readonly CalendarRange = CalendarRange;
-
+  readonly Plus = Plus;
 
 
 

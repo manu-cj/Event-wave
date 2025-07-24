@@ -13,8 +13,6 @@ export class EventFormComponent {
   event: IEvent = {} as IEvent;
   selectedImage?: File;
   selectedFileName: string = 'No file selected';
-  page: number = 0;
-  pageSize: number = 10;
   success = '';
   error = '';
 
@@ -37,7 +35,7 @@ export class EventFormComponent {
         this.error = result.message;
       }
     } else {
-      console.log('Aucune image sélectionnée');
+      this.error = 'No image selected';
     }
   }
 
@@ -57,7 +55,6 @@ export class EventFormComponent {
         this.error = '';
         this.selectedFileName = file.name;
       }
-      console.log(file);
     }
   }
 
