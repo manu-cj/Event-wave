@@ -21,7 +21,7 @@ public class EventService {
             Event saved = eventRepository.save(EventMapper.toEntity(dto));
             return EventMapper.toDto(saved);
         } catch (Exception e) {
-            throw new RuntimeException("Error occurred when you save in repository", e);
+            throw new RuntimeException("Error occurred when we save event in repository", e);
         }
     }
 
