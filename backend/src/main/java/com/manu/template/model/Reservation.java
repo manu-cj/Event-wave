@@ -15,7 +15,6 @@ import java.util.UUID;
 @Table(name= "reservation")
 public class Reservation {
     @Id
-    @GeneratedValue
     private UUID id;
 
 
@@ -30,7 +29,7 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime reservationDate;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String ticketUrl;
 
 }

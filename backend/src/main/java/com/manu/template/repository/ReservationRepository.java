@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
     Page<Reservation> findByUserId(UUID userId, Pageable pageable);
+    Optional<String> findTicketUrlById(UUID id);
 
 }
