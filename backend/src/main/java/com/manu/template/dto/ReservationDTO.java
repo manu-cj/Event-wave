@@ -26,6 +26,5 @@ public class ReservationDTO {
     @NotNull
     private LocalDateTime reservationDate;
 
-    @NotBlank
     private String ticketUrl;
 }

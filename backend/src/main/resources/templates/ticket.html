@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ticket de réservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+        }
+        .ticket {
+            background: #fff;
+            border: 2px dashed #4CAF50;
+            border-radius: 12px;
+            width: 400px;
+            margin: 40px auto;
+            padding: 32px 24px;
+            /* box-shadow supprimé (non supporté) */
+        }
+        .ticket h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .ticket-info {
+            margin-bottom: 18px;
+            font-size: 1.1em;
+        }
+        .ticket-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .qr {
+            text-align: center;
+            margin-top: 24px;
+        }
+        /* Flex et justify-content supprimés */
+    </style>
+</head>
+<body>
+<div class="ticket">
+    <h1>🎟️ Ticket de réservation</h1>
+    <div class="ticket-info">
+        <span class="ticket-label">Réservation ID :</span>
+        <span th:text="${reservationId}"></span>
+    </div>
+    <div class="ticket-info">
+        <span class="ticket-label">Utilisateur :</span>
+        <span th:text="${username}"></span>
+    </div>
+    <div class="ticket-info">
+        <span class="ticket-label">Événement :</span>
+        <span th:text="${eventName}"></span>
+    </div>
+    <div class="qr">
+        <img th:src="'data:image/png;base64,' + ${qrBase64}" alt="QR Code" width="120" height="120"/>
+    </div>
+</div>
+</body>
+</html>
