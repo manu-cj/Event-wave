@@ -43,4 +43,12 @@ public class Event {
     @Column(nullable = false, length = 255)
     private String pictureUrl;
 
+    public void decreaseAvailablePlaces() {
+        if (availablePlaces > 0) {
+            availablePlaces--;
+        } else {
+            throw new IllegalStateException("No place available.");
+        }
+    }
+
 }

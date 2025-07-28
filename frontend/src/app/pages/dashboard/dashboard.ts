@@ -10,7 +10,8 @@ import {NgClass} from '@angular/common';
 import {IEventPage} from '../../models/event.model';
 import {EventService} from '../../service/event.service';
 import {EventsList} from '../../components/events-list/eventsList.component';
-import {LucideAngularModule, Users, CalendarRange, X, Plus} from 'lucide-angular';
+import {LucideAngularModule, Users, CalendarRange, Ticket, X, Plus} from 'lucide-angular';
+import {ReservationsList} from '../../components/reservation-list/reservationList.component';
 
 
 @Component({
@@ -22,7 +23,8 @@ import {LucideAngularModule, Users, CalendarRange, X, Plus} from 'lucide-angular
     UsersList,
     EventsList,
     NgClass,
-    LucideAngularModule
+    LucideAngularModule,
+    ReservationsList
   ],
   templateUrl: './dashboard.html',
 })
@@ -32,7 +34,7 @@ export class Dashboard implements OnInit {
     email: "",
     role: ""
   }
-  viewMode: 'users' | 'events' = 'users';
+  viewMode: 'users' | 'events' | 'reservations' = 'users';
   userPage: IUserPage | null = null;
   eventPage: IEventPage = {} as IEventPage;
   page: number = 0;
@@ -42,6 +44,7 @@ export class Dashboard implements OnInit {
 
   readonly Users = Users;
   readonly CalendarRange = CalendarRange;
+  readonly Ticket = Ticket;
   readonly Plus = Plus;
 
 
