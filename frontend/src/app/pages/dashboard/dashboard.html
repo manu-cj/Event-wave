@@ -33,6 +33,19 @@
           </span>
           <span>Events</span>
         </button>
+        <button
+          (click)="viewMode = 'reservations'"
+          [ngClass]="{
+            'bg-blue-100 text-blue-700 font-semibold': viewMode === 'reservations',
+            'text-gray-600 hover:text-blue-600': viewMode !== 'reservations'
+          }"
+          class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+        >
+          <span class="flex items-center justify-center w-6 h-6 ">
+            <lucide-angular [img]="Ticket"></lucide-angular>
+          </span>
+          <span>Reservations</span>
+        </button>
       </div>
 
       <!-- Create Event Button (only in events view) -->
@@ -55,6 +68,9 @@
         <app-users-list></app-users-list>
       } @else if (viewMode === 'events') {
         <app-events-list></app-events-list>
+      }
+      @else if (viewMode === 'reservations') {
+        <app-reservations-list [token]="token"></app-reservations-list>
       }
     </div>
   </div>

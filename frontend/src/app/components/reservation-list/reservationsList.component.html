@@ -1,0 +1,45 @@
+<h2 class="text-3xl font-bold mb-8 text-center text-gray-800 tracking-tight">Event List</h2>
+
+<div class="overflow-x-auto rounded-lg border border-gray-200">
+  <table class="min-w-full text-sm text-left text-gray-600">
+    <thead class="bg-gray-50 border-b border-gray-200">
+    <tr>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">Id</th>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">Event name</th>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">User username</th>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">Date</th>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">Ticket url</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      @if (reservationPage?.content) {
+        @for (reservation of reservationPage?.content; track reservation) {
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 max-w-xs truncate">{{ reservation.id }}</td>
+            <td class="px-6 py-4">{{ reservation.event.title }}</td>
+            <td class="px-6 py-4">{{ reservation.user.username }}</td>
+            <td class="px-6 py-4">{{ reservation.reservationDate }}</td>
+            <td class="px-6 py-4">{{ reservation.ticketUrl }}</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+<div class="flex justify-center items-center mt-8 gap-4">
+  <button
+    (click)="prevPage()"
+    [disabled]="page === 0"
+    class="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+    ⬅️ Previous
+  </button>
+  <span class="text-gray-700 font-medium">Page <span class="text-blue-600 font-bold">{{ page + 1 }}</span></span>
+  <button
+    (click)="nextPage()"
+    [disabled]="!reservationPage?.content || reservationPage?.last === true"
+    class="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+    Next ➡️
+  </button>
+</div>

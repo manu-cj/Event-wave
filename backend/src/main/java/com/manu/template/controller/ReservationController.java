@@ -1,6 +1,7 @@
 package com.manu.template.controller;
 
 import com.manu.template.dto.ReservationDTO;
+import com.manu.template.model.User;
 import com.manu.template.service.ReservationService;
 import com.manu.template.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +46,6 @@ public class ReservationController {
     public ResponseEntity<Map<String, String>> createReservation(@RequestBody @Valid ReservationDTO dto) {
         Map<String, String> response = new HashMap<>();
         try {
-            //TODO change this for create a real ticket and add a real url ticket
             UUID reservationId = UUID.randomUUID();
             String filename = ticketService.generateTicketPdf(reservationId, dto.getUser().getUsername(), dto.getEvent().getTitle());
             dto.setId(reservationId);
@@ -60,10 +62,15 @@ public class ReservationController {
         }
     }
 
+
     @Operation(summary = "Get reservation by user id")
-    @GetMapping("/{userId}")
-    public ResponseEntity<Page<ReservationDTO>> findByUserId(@PathVariable UUID userId, Pageable pageable) {
-        Page<ReservationDTO> response = reservationService.findByUserId(userId, pageable);
+    @GetMapping("/user")
+    public ResponseEntity<Page<ReservationDTO>> findByUser(@AuthenticationPrincipal User user, Pageable pageable) {
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Utilisateur non authentifié");
+        }
+
+        Page<ReservationDTO> response = reservationService.findByUserId(user.getId(), pageable);
         if (response.isEmpty()) {
             ResponseEntity.noContent().build();
         }

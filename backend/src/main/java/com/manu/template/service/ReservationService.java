@@ -24,6 +24,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final EventRepository eventRepository;
 
+    @Transactional
     public ReservationDTO save(ReservationDTO dto) {
         try {
             log.error(dto.getTicketUrl());
@@ -31,13 +32,17 @@ public class ReservationService {
             Event event = eventRepository.findById(eventId)
                     .orElseThrow(() -> new EntityNotFoundException("Event not found"));
 
+            event.decreaseAvailablePlaces();
+
             Reservation reservation = ReservationMapper.toEntity(dto);
             reservation.setEvent(event);
 
+            eventRepository.save(event);
             Reservation saved = reservationRepository.save(reservation);
+
             return ReservationMapper.toDto(saved);
         } catch (Exception e) {
-            log.error("Erreur lors de la sauvegarde de la réservation", e);
+            log.error("Error occurred when we save reservation in repository", e);
             throw new RuntimeException("Error occurred when we save reservation in repository", e);
         }
     }
