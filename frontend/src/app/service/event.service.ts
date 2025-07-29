@@ -28,5 +28,9 @@ export class EventService {
     return this.http.get<IEventPage>(`${this.baseUrl}/events?page=${page}&size=${size}`);
   }
 
+  getEventById(id: string): Observable<IEvent> {
+    return this.http.get<IEvent>(`${this.baseUrl}/events/${id}`);
+  }
+
 }
 

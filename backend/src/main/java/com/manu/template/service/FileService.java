@@ -20,7 +20,7 @@ public class FileService {
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("File type not supported");
         }
-        long maxSize = 2 * 1024 * 1024;
+        long maxSize = 200000;
         if (file.getSize() > maxSize) {
             throw new IllegalArgumentException("File too large");
         }

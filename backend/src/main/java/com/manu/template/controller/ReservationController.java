@@ -77,7 +77,7 @@ public class ReservationController {
         return ResponseEntity.ok(response);
     }
 
-    // Dans ReservationController.java
+
     @GetMapping("/{reservationId}/ticket")
     public ResponseEntity<byte[]> downloadTicket(@PathVariable UUID reservationId) {
         // Récupère la réservation et les infos nécessaires

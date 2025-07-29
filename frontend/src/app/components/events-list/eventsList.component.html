@@ -10,6 +10,8 @@
         <th class="px-6 py-4 font-semibold uppercase tracking-wide">City</th>
         <th class="px-6 py-4 font-semibold uppercase tracking-wide">Address</th>
         <th class="px-6 py-4 font-semibold uppercase tracking-wide text-center">Available Places</th>
+        <th class="px-6 py-4 font-semibold uppercase tracking-wide text-center">Phone number</th>
+        <th class="px-6 py-4 font-semibold uppercase tracking-wide text-center">Email address</th>
       </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
@@ -22,6 +24,8 @@
               <td class="px-6 py-4">{{ event.city }}</td>
               <td class="px-6 py-4">{{ event.address }}</td>
               <td class="px-6 py-4 text-center font-semibold text-blue-700">{{ event.availablePlaces }}</td>
+              <td class="px-6 py-4 text-center font-semibold text-blue-700">{{ event.phoneNumber }}</td>
+              <td class="px-6 py-4 text-center font-semibold text-blue-700">{{ event.emailAddress }}</td>
             </tr>
           }
         }

@@ -3,20 +3,25 @@ import {Router, RouterModule} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
 import {UserService} from '../../service/user.service';
 import {IUser} from '../../models/user.model';
+import {LucideAngularModule, Plus, Waves} from 'lucide-angular';
+
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   templateUrl: './navbar.component.html',
-  imports: [RouterModule]
+  imports: [RouterModule, LucideAngularModule]
 })
 export class NavbarComponent implements OnInit {
   links = [
-    { label: 'Accueil', path: '/dashboard' },
+    { label: 'Home', path: '/'},
+    { label: 'Events', path: '/events'},
+    { label: 'Dashboard', path: '/dashboard'},
   ];
   username: string = '';
-
   isConnected: boolean = false;
+
+  readonly waves = Waves;
 
   constructor(
     private api: UserService,
@@ -43,4 +48,6 @@ export class NavbarComponent implements OnInit {
     this.auth.clearToken();
     await this.router.navigate(['/login']);
   }
+
+  protected readonly Plus = Plus;
 }

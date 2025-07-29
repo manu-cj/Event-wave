@@ -9,6 +9,8 @@ export interface IEvent {
   address: string;
   availablePlaces: number;
   pictureUrl?: string;
+  phoneNumber?: string;
+  emailAddress?: string;
 }
 
 export interface IEventPage {

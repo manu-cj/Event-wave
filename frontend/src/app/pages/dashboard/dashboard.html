@@ -1,82 +1,76 @@
 <app-navbar></app-navbar>
 
-<div class="flex flex-col items-center min-h-screen bg-gray-50 px-6 py-16 pt-20">
-  <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg border border-gray-100">
+<div class="flex flex-col items-center min-h-screen bg-gray-50 px-8 py-16 pt-32"> <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg border border-gray-100">
 
-    <!-- Header: Tabs + Optional Action Button -->
-    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-      <!-- Tabs -->
-      <div class="flex gap-2">
-        <button
-          (click)="viewMode = 'users'"
-          [ngClass]="{
+  <div class="flex items-center justify-between px-8 py-4 border-b border-gray-200">
+    <div class="flex gap-2">
+      <button
+        (click)="viewMode = 'users'"
+        [ngClass]="{
             'bg-blue-100 text-blue-700 font-semibold': viewMode === 'users',
             'text-gray-600 hover:text-blue-600 hover:bg-blue-50': viewMode !== 'users'
           }"
-          class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
-                >
+        class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+      >
           <span class="flex items-center justify-center w-6 h-6 ">
             <lucide-angular [img]="Users"></lucide-angular>
           </span>
-          <span>Users</span>
-        </button>
-        <button
-          (click)="viewMode = 'events'"
-          [ngClass]="{
+        <span>Users</span>
+      </button>
+      <button
+        (click)="viewMode = 'events'"
+        [ngClass]="{
             'bg-blue-100 text-blue-700 font-semibold': viewMode === 'events',
             'text-gray-600 hover:text-blue-600': viewMode !== 'events'
           }"
-          class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
-        >
+        class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+      >
           <span class="flex items-center justify-center w-6 h-6 ">
             <lucide-angular [img]="CalendarRange"></lucide-angular>
           </span>
-          <span>Events</span>
-        </button>
-        <button
-          (click)="viewMode = 'reservations'"
-          [ngClass]="{
+        <span>Events</span>
+      </button>
+      <button
+        (click)="viewMode = 'reservations'"
+        [ngClass]="{
             'bg-blue-100 text-blue-700 font-semibold': viewMode === 'reservations',
             'text-gray-600 hover:text-blue-600': viewMode !== 'reservations'
           }"
-          class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
-        >
+        class="flex items-center gap-2 px-5 py-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+      >
           <span class="flex items-center justify-center w-6 h-6 ">
             <lucide-angular [img]="Ticket"></lucide-angular>
           </span>
-          <span>Reservations</span>
-        </button>
-      </div>
+        <span>Reservations</span>
+      </button>
+    </div>
 
-      <!-- Create Event Button (only in events view) -->
-      @if (viewMode === 'events') {
-        <button
-          (click)="openModal()"
-          class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm cursor-pointer"
-        >
+    @if (viewMode === 'events') {
+      <button
+        (click)="openModal()"
+        class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm cursor-pointer"
+      >
           <span class="flex items-center justify-center w-6 h-6 ">
             <lucide-angular [img]="Plus"></lucide-angular>
           </span>
-          <span>Create Event</span>
-        </button>
-      }
-      </div>
+        <span>Create Event</span>
+      </button>
+    }
+  </div>
 
-    <!-- List Container -->
-    <div class="px-6 py-6">
-      @if (viewMode === 'users') {
-        <app-users-list></app-users-list>
-      } @else if (viewMode === 'events') {
-        <app-events-list></app-events-list>
-      }
-      @else if (viewMode === 'reservations') {
-        <app-reservations-list [token]="token"></app-reservations-list>
-      }
-    </div>
+  <div class="px-6 py-6">
+    @if (viewMode === 'users') {
+      <app-users-list></app-users-list>
+    } @else if (viewMode === 'events') {
+      <app-events-list></app-events-list>
+    }
+    @else if (viewMode === 'reservations') {
+      <app-reservations-list [token]="token"></app-reservations-list>
+    }
   </div>
 </div>
+</div>
 
-<!-- Modal -->
 <app-modal [isOpen]="isModalOpen" (close)="closeModal()">
   <app-event-form [token]="token"></app-event-form>
 </app-modal>

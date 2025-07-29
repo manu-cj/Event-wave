@@ -8,6 +8,8 @@ public class ReservationMapper {
         if (reservation == null) return null;
         return ReservationDTO.builder()
                 .id(reservation.getId())
+                .firstname(reservation.getFirstname())
+                .lastname(reservation.getLastname())
                 .user(UserMapper.toDto(reservation.getUser()))
                 .event(EventMapper.toDto(reservation.getEvent()))
                 .reservationDate(reservation.getReservationDate())
@@ -19,6 +21,8 @@ public class ReservationMapper {
         if (reservationDTO == null) return null;
         return Reservation.builder()
                 .id(reservationDTO.getId())
+                .firstname(reservationDTO.getFirstname())
+                .lastname(reservationDTO.getLastname())
                 .user(UserMapper.toEntity(reservationDTO.getUser()))
                 .event(EventMapper.toEntity(reservationDTO.getEvent()))
                 .reservationDate(reservationDTO.getReservationDate())
