@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,12 @@ public class EventService {
     public Page<EventDTO> findAll(Pageable pageable) {
         return eventRepository.findAll(pageable)
                 .map(EventMapper::toDto);
+    }
+
+    public EventDTO findById(UUID eventId) {
+        return eventRepository.findById(eventId)
+                .map(EventMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
     }
 
 

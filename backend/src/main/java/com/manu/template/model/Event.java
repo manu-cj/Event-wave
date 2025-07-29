@@ -19,22 +19,22 @@ public class Event {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 500)
     private String description;
 
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 255)
     private String city;
 
     @Column(nullable = false)
     private int postalCode;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 500)
     private String address;
 
     @Column(nullable = false)

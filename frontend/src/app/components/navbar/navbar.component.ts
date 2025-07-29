@@ -12,7 +12,9 @@ import {IUser} from '../../models/user.model';
 })
 export class NavbarComponent implements OnInit {
   links = [
-    { label: 'Accueil', path: '/dashboard' },
+    { label: 'Home', path: '/'},
+    { label: 'Events', path: '/events'},
+    { label: 'Dashboard', path: '/dashboard'},
   ];
   username: string = '';
 

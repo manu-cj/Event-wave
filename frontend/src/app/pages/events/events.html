@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+
+<div class="relative min-h-screen bg-gradient-to-b divide-blue-100 via-white to-blue-50 overflow-hidden">
+
+  <div class="relative z-10 flex flex-col items-center justify-between pt-20 px-2 sm:px-6 min-h-[calc(100vh-80px)]">
+    <div class="w-full text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-orange-700 mb-8 drop-shadow-sm tracking-tight">Tous les événements</h1>
+      <div class="w-full max-w-20xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+        @for (event of eventPage?.content; track event) {
+        <app-events-card [event]="event"></app-events-card>
+      }
+      </div>
+    </div>
+
+    <div class="flex justify-center items-center gap-4 mt-10 pb-8">
+      <button (click)="prevPage()" [disabled]="page === 0"
+              class="px-4 py-2 rounded bg-gray-200 text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+        Précédent
+      </button>
+      <span class="text-gray-500 font-medium">Page {{page + 1}}</span>
+      <button (click)="nextPage()" [disabled]="eventPage?.last"
+              class="px-4 py-2 rounded bg-gray-200 text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+        Suivant
+      </button>
+    </div>
+  </div>
+</div>

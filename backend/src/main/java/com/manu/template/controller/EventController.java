@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/events")
@@ -70,5 +71,14 @@ public class EventController {
             response.put("status", "error");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventDTO> findById(@PathVariable UUID eventId) {
+            EventDTO event = eventService.findById(eventId);
+            if (event == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(event);
     }
 }

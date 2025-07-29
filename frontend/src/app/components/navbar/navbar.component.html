@@ -1,59 +1,77 @@
-<nav class="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-lg shadow-lg z-50 border-b border-gray-200">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-3 md:px-6 py-1">
-    <!-- Logo / Brand -->
-    <div class="flex items-center space-x-2">
-      <span class="inline-flex items-center justify-center w-10 h-10 bg-gray-700 text-white rounded-xl font-bold text-2xl shadow select-none">EW</span>
-      <span class="text-xl md:text-2xl font-extrabold text-gray-800 tracking-tight select-none">EventWave</span>
+<nav class="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-lg z-50 border-b border-gray-200">
+  <!-- Vague très fine -->
+  <div class="fixed w-full overflow-hidden top-0 left-0 z-5">
+    <svg class="w-full h-58" viewBox="0 0 1440 100" preserveAspectRatio="none">
+      <path fill="#FFB300"fill-opacity="0.5" d="
+      M0,60
+      C120,100 360,10 720,60
+      C1080,110 1320,10 1440,60
+      L1440,0
+      L0,0
+      Z">
+        <animate
+          attributeName="d"
+          dur="10s"
+          repeatCount="indefinite"
+          values="
+          M0,60 C120,80 360,30 720,60 C1080,90 1320,30 1440,60 L1440,0 L0,0 Z;
+          M0,60 C120,60 360,70 720,50 C1080,10 1320,70 1440,60 L1440,0 L0,0 Z;
+          M0,60 C120,80 360,30 720,60 C1080,90 1320,30 1440,60 L1440,0 L0,0 Z
+        " />
+      </path>
+    </svg>
+  </div>
+
+  <!-- Contenu navbar ultra compact -->
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-1 md:px-2 py-0 z-90">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2 z-50">
+      <span class="inline-flex items-center justify-center w-6 h-6 bg-gray-700 text-white rounded-lg text-sm font-bold shadow select-none">EW</span>
+      <span class="text-sm md:text-base font-semibold text-gray-800 tracking-tight select-none">EventWave</span>
     </div>
-    <!-- Spacer -->
+
+    <!-- Espace + liens -->
     <div class="flex-1"></div>
-    <!-- Navigation + User Section (right) -->
-    <div class="flex items-center space-x-4">
-      <ul class="hidden md:flex items-center space-x-1 lg:space-x-3 list-none">
+    <div class="flex items-center space-x-2">
+      <ul class="hidden md:flex items-center space-x-1 lg:space-x-2 list-none z-50">
         @for (link of links; track link) {
           <li class="relative group">
             <a [routerLink]="link.path"
-               class="flex items-center gap-2 px-5 py-2 font-medium text-gray-700 rounded-xl transition-all duration-150
-               hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200
-               after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-gray-700 after:transition-all after:duration-200 group-hover:after:w-2/3 no-underline"
-               tabindex="0">
-              <span class="transition-colors group-hover:text-gray-900">{{ link.label }}</span>
+               class="px-3 py-1 text-sm text-gray-700 rounded-lg font-medium transition-all duration-150
+               hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200
+               after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-gray-700 after:transition-all after:duration-200 group-hover:after:w-1/2 no-underline">
+              {{ link.label }}
             </a>
           </li>
         }
+
         @if (!isConnected) {
           <li>
             <a [routerLink]="'/login'"
-               class="flex items-center gap-2 px-5 py-2 font-medium text-gray-700 rounded-xl transition-all duration-150
-                hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200
-                after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-gray-700 after:transition-all after:duration-200 group-hover:after:w-2/3 no-underline"
-               tabindex="0">
-              <span class="transition-colors group-hover:text-gray-900">Login</span>
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100">
+              Login
             </a>
           </li>
           <li>
             <a [routerLink]="'/register'"
-               class="flex items-center gap-2 px-5 py-2 font-medium text-gray-700 rounded-xl transition-all duration-150
-                hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200
-                after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-gray-700 after:transition-all after:duration-200 group-hover:after:w-2/3 no-underline"
-               tabindex="0">
-              <span class="transition-colors group-hover:text-gray-900">Register</span>
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100">
+              Register
             </a>
           </li>
-
         } @else {
           <li>
             <button (click)="onLogout()"
-                    class="ml-2 px-4 py-2 bg-gray-700 text-white font-semibold rounded-xl shadow hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-gray-300 active:scale-95 cursor-pointer">
-              Déconnexion
+                    class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52">
+              Logout
             </button>
           </li>
         }
       </ul>
-      <div class="flex items-center space-x-3 ml-2">
-        <!-- Mobile menu button -->
-        <button class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition" type="button" aria-label="Ouvrir le menu">
-          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+      <!-- Menu mobile -->
+      <div class="md:hidden flex items-center ml-2">
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100 transition" aria-label="Ouvrir le menu">
+          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/>
           </svg>
         </button>
