@@ -43,6 +43,12 @@ public class Event {
     @Column(nullable = false, length = 255)
     private String pictureUrl;
 
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private String emailAddress;
+
     public void decreaseAvailablePlaces() {
         if (availablePlaces > 0) {
             availablePlaces--;

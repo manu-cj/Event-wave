@@ -17,6 +17,12 @@ public class Reservation {
     @Id
     private UUID id;
 
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

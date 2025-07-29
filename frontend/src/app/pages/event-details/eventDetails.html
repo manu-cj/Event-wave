@@ -46,7 +46,7 @@
             <ul class="text-gray-600 space-y-4 text-base">
               <li class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                 <span class="font-bold text-blue-600 min-w-[60px]">Date:</span>
-                <span class="text-gray-700">{{ event.date ? (event.date | date:'EEEE d MMMM yyyy' : 'en-US') : 'Not provided' }}</span>
+                <span class="text-gray-700">{{ event.date ? (event.date | date:'EEEE d MMMM yyyy HH:mm' : 'fr-BE') : 'Non renseigné' }}</span>
               </li>
               <li class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
                 <span class="font-bold text-blue-600 min-w-[60px]">Location:</span>
@@ -56,9 +56,22 @@
                     {{ event.postalCode || '' }}
                     {{ event.city || '' }}
                   </span>
+
                 } @else {
                   <span class="text-gray-700">Not provided</span>
                 }
+              </li>
+              <li class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span class="font-bold text-blue-600 min-w-[60px]">Places available:</span>
+                <span class="text-gray-700">{{ event.availablePlaces }}</span>
+              </li>
+              <li class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span class="font-bold text-blue-600 min-w-[60px]">Phone contact:</span>
+                <span class="text-gray-700">{{ event.phoneNumber }}</span>
+              </li>
+              <li class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span class="font-bold text-blue-600 min-w-[60px]">Email contact:</span>
+                <span class="text-gray-700">{{ event.emailAddress }}</span>
               </li>
             </ul>
           </div>
@@ -76,7 +89,7 @@
         </div>
 
         <div class="mt-12 flex justify-center">
-          <button class="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-extrabold rounded-full shadow-xl hover:shadow-2xl hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-75 active:scale-95 text-lg tracking-wide cursor-pointer">
+          <button (click)="openModal()" class="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-extrabold rounded-full shadow-xl hover:shadow-2xl hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-75 active:scale-95 text-lg tracking-wide cursor-pointer">
             Register for Event Now!
           </button>
         </div>
@@ -95,3 +108,7 @@
     </div>
   }
 </div>
+
+<app-modal [isOpen]="isModaleOpen" (close)="closeModal()">
+
+</app-modal>

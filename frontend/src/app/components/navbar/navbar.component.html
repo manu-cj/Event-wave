@@ -2,7 +2,7 @@
   <!-- Vague très fine -->
   <div class="fixed w-full overflow-hidden top-0 left-0 z-5">
     <svg class="w-full h-58" viewBox="0 0 1440 100" preserveAspectRatio="none">
-      <path fill="#FFB300"fill-opacity="0.5" d="
+      <path fill="#FFA500"fill-opacity="0.5" d="
       M0,60
       C120,100 360,10 720,60
       C1080,110 1320,10 1440,60
@@ -26,8 +26,10 @@
   <div class="max-w-7xl mx-auto flex items-center justify-between px-1 md:px-2 py-0 z-90">
     <!-- Logo -->
     <div class="flex items-center space-x-2 z-50">
-      <span class="inline-flex items-center justify-center w-6 h-6 bg-gray-700 text-white rounded-lg text-sm font-bold shadow select-none">EW</span>
-      <span class="text-sm md:text-base font-semibold text-gray-800 tracking-tight select-none">EventWave</span>
+      <span class="inline-flex items-center justify-center">
+        <lucide-angular class="w-6 h-6 bg-white text-orange-600 rounded-lg text-sm font-bold shadow select-none" [img]="waves"></lucide-angular>
+      </span>
+      <span class="text-sm md:text-base font-semibold text-orange-600 tracking-tight select-none">EventWave</span>
     </div>
 
     <!-- Espace + liens -->
@@ -38,7 +40,7 @@
           <li class="relative group">
             <a [routerLink]="link.path"
                class="px-3 py-1 text-sm text-gray-700 rounded-lg font-medium transition-all duration-150
-               hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200
+               hover:text-orange-600 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-200
                after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-gray-700 after:transition-all after:duration-200 group-hover:after:w-1/2 no-underline">
               {{ link.label }}
             </a>
@@ -48,20 +50,20 @@
         @if (!isConnected) {
           <li>
             <a [routerLink]="'/login'"
-               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100">
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer">
               Login
             </a>
           </li>
           <li>
             <a [routerLink]="'/register'"
-               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100">
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer">
               Register
             </a>
           </li>
         } @else {
           <li>
             <button (click)="onLogout()"
-                    class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52">
+                    class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52 cursor-pointer">
               Logout
             </button>
           </li>

@@ -3,6 +3,8 @@ import {IUser} from './user.model';
 
 export interface IReservation {
   id?: string;
+  firstname: string;
+  lastname: string;
   event: IEvent;
   user: IUser;
   reservationDate: Date;

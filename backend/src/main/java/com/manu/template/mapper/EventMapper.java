@@ -10,13 +10,14 @@ public class EventMapper {
                 .id(event.getId())
                 .title(event.getTitle())
                 .description(event.getDescription())
-                .availablePlaces(event.getAvailablePlaces())
                 .date(event.getDate())
                 .city(event.getCity())
                 .postalCode(event.getPostalCode())
                 .address(event.getAddress())
                 .availablePlaces(event.getAvailablePlaces())
                 .pictureUrl(event.getPictureUrl())
+                .phoneNumber(event.getPhoneNumber())
+                .emailAddress(event.getEmailAddress())
                 .build();
     }
 
@@ -25,13 +26,14 @@ public class EventMapper {
         return Event.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
-                .availablePlaces(dto.getAvailablePlaces())
                 .date(dto.getDate())
                 .city(dto.getCity())
                 .postalCode(dto.getPostalCode())
                 .address(dto.getAddress())
                 .availablePlaces(dto.getAvailablePlaces())
                 .pictureUrl(dto.getPictureUrl())
+                .phoneNumber(dto.getPhoneNumber())
+                .emailAddress(dto.getEmailAddress())
                 .build();
     }
 }

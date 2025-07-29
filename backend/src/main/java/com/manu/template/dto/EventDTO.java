@@ -42,4 +42,10 @@ public class EventDTO {
 
     @NotBlank
     private String pictureUrl;
+
+    @NotBlank
+    private String phoneNumber;
+
+    @NotBlank
+    private String emailAddress;
 }
