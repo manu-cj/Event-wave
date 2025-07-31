@@ -3,11 +3,12 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { Product } from '../models/product.model';
+import {environment} from '../../environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   // Remplace l’URL par celle de ton API
-  private baseUrl = 'http://localhost:8081/api';
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

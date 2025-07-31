@@ -108,7 +108,9 @@
     </div>
   }
 </div>
+@if (event) {
+  <app-modal [isOpen]="isModaleOpen" (close)="closeModal()">
+    <app-reservation-form [event]="event"></app-reservation-form>
+  </app-modal>
+}
 
-<app-modal [isOpen]="isModaleOpen" (close)="closeModal()">
-
-</app-modal>

@@ -45,6 +45,9 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<Map<String, String>> createReservation(@RequestBody @Valid ReservationDTO dto) {
         Map<String, String> response = new HashMap<>();
+        if (dto.getUser() == null) {
+            throw new IllegalArgumentException("L'utilisateur de la réservation ne doit pas être null.");
+        }
         try {
             UUID reservationId = UUID.randomUUID();
             String filename = ticketService.generateTicketPdf(reservationId, dto.getUser().getUsername(), dto.getEvent().getTitle());

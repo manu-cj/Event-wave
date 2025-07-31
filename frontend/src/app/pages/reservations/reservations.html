@@ -1,6 +1,7 @@
-<h2 class="text-3xl font-bold mb-8 text-center text-gray-800 tracking-tight">Reservations List</h2>
-
+<app-navbar></app-navbar>
 <div class="overflow-x-auto rounded-lg border border-gray-200">
+  <h2 class="text-3xl font-bold mb-8 text-center text-gray-800 tracking-tight">Reservations List</h2>
+
   <table class="min-w-full text-sm text-left text-gray-600">
     <thead class="bg-gray-50 border-b border-gray-200">
     <tr>
@@ -10,6 +11,7 @@
       <th class="px-6 py-4 font-semibold uppercase tracking-wide">Event name</th>
       <th class="px-6 py-4 font-semibold uppercase tracking-wide">User username</th>
       <th class="px-6 py-4 font-semibold uppercase tracking-wide">Date</th>
+      <th class="px-6 py-4 font-semibold uppercase tracking-wide">Ticket url</th>
     </tr>
     </thead>
     <tbody class="divide-y divide-gray-100">
@@ -21,7 +23,18 @@
             <td class="px-6 py-4">{{ reservation.firstname }}</td>
             <td class="px-6 py-4">{{ reservation.event.title }}</td>
             <td class="px-6 py-4">{{ reservation.user.username }}</td>
-            <td class="px-6 py-4">{{ reservation.reservationDate }}</td>
+            <td class="px-6 py-4">{{ reservation.reservationDate | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td (click)="showTicket(reservation.id ?? '')" class="px-6 py-4">
+              <button
+                class="flex items-center gap-2 px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm cursor-pointer"
+                title="Download ticket"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4m-4 4V4m8 16H4"/>
+                </svg>
+                Download ticket
+              </button>
+            </td>
           </tr>
         }
       }

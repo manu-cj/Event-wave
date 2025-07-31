@@ -4,12 +4,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { EventService } from '../../service/event.service';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import {UserService} from '../../service/user.service';
 import {IUser} from '../../models/user.model';
 import {Observable} from 'rxjs';
 import {IEvent} from '../../models/event.model';
-import {EventFormComponent} from '../../components/event-form/event-form';
 import {Modal} from '../../components/modal/modal';
+import {ReservationForm} from '../../components/reservationForm/reservationForm.component';
 
 
 @Component({
@@ -19,8 +18,8 @@ import {Modal} from '../../components/modal/modal';
     CommonModule,
     DatePipe,
     NavbarComponent,
-    EventFormComponent,
-    Modal
+    Modal,
+    ReservationForm
   ],
   templateUrl: './eventDetails.html',
 })
