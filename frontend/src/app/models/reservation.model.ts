@@ -7,7 +7,7 @@ export interface IReservation {
   lastname: string;
   event: IEvent;
   user: IUser;
-  reservationDate: Date;
+  reservationDate: string;
   ticketUrl?: string;
 }
 

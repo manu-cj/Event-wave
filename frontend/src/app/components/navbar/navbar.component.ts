@@ -8,15 +8,15 @@ import {LucideAngularModule, Plus, Waves} from 'lucide-angular';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
+  standalone: true, //Permet d'utiliser le component directement
   templateUrl: './navbar.component.html',
   imports: [RouterModule, LucideAngularModule]
 })
 export class NavbarComponent implements OnInit {
-  links = [
-    { label: 'Home', path: '/'},
-    { label: 'Events', path: '/events'},
-    { label: 'Dashboard', path: '/dashboard'},
+  links: { label: string; path: string }[] = [
+    { label: 'Home', path: '/' },
+    { label: 'Events', path: '/events' },
+    { label: 'Dashboard', path: '/dashboard' },
   ];
   username: string = '';
   isConnected: boolean = false;
@@ -49,5 +49,4 @@ export class NavbarComponent implements OnInit {
     await this.router.navigate(['/login']);
   }
 
-  protected readonly Plus = Plus;
 }

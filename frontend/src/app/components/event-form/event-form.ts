@@ -21,7 +21,6 @@ export class EventFormComponent {
   ) {}
 
   async onSubmit() {
-    // Traitement du formulaire (ex : appel API)
 
     if (this.selectedImage) {
       const result : any = await this.eventApi.postEvent(this.event, this.token, this.selectedImage);
