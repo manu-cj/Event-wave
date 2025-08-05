@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
     { label: 'Events', path: '/events' },
   ];
   username: string = '';
+  isAdmin: boolean = false;
   isConnected: boolean = false;
 
   readonly waves = Waves;
@@ -37,6 +38,7 @@ export class NavbarComponent implements OnInit {
         next: async (result: IUser) => {
           if (result?.username && result?.email && result?.role) {
             this.username = result.username;
+            result.role === 'ADMIN' ? this.isAdmin = true : this.isAdmin = false;
           }
         }
       });

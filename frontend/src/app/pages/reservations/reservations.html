@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody class="divide-y divide-gray-100">
-      @if (reservationPage?.content) {
+      @if (reservationPage?.content && reservationPage && reservationPage.content.length > 0) {
         @for (reservation of reservationPage?.content; track reservation) {
           <tr class="hover:bg-gray-50 transition">
             <td class="px-6 py-4 max-w-xs truncate">{{ reservation.id }}</td>
@@ -37,6 +37,13 @@
             </td>
           </tr>
         }
+      }
+      @else if (!isLoading) {
+        <tr>
+          <td colspan="7" class="py-8 text-center text-lg text-gray-500 bg-gray-50 rounded-b-lg">
+            No reservations found.
+          </td>
+        </tr>
       }
     </tbody>
   </table>

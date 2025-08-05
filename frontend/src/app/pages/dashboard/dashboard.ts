@@ -7,8 +7,6 @@ import {Modal} from '../../components/modal/modal';
 import {UsersList} from '../../components/users-list/usersList.component';
 import {EventFormComponent} from '../../components/event-form/event-form';
 import {NgClass} from '@angular/common';
-import {IEventPage} from '../../models/event.model';
-import {EventService} from '../../service/event.service';
 import {EventsList} from '../../components/events-list/eventsList.component';
 import {LucideAngularModule, Users, CalendarRange, Ticket, X, Plus} from 'lucide-angular';
 import {ReservationsList} from '../../components/reservation-list/reservationList.component';
@@ -35,13 +33,8 @@ export class Dashboard implements OnInit {
     role: ""
   }
   viewMode: 'users' | 'events' | 'reservations' = 'users';
-  userPage: IUserPage | null = null;
-  eventPage: IEventPage = {} as IEventPage;
-  param: string = '';
   page: number = 0;
-  pageSize: number = 10;
-  sortedColumn: string = 'date';
-  sortedDirection: string = 'desc';
+  isAdmin: boolean = false;
   isModalOpen: boolean = false;
   token: string = '';
 
@@ -72,6 +65,9 @@ export class Dashboard implements OnInit {
           this.user.username = result.username;
           this.user.email = result.email;
           this.user.role = result.role;
+          if (result.role !== 'ADMIN') {
+            await this.router.navigate(['/']);
+          };
         } else {
           await this.router.navigate(['/login']);
         }
@@ -81,9 +77,6 @@ export class Dashboard implements OnInit {
       }
     });
   }
-
-
-
 
 
   openModal() {

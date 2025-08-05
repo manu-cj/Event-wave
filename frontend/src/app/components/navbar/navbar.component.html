@@ -62,17 +62,19 @@
           </li>
         } @else {
           <li>
-            <a [routerLink]="'/reservation'"
+            <a [routerLink]="'/reservations'"
                class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
               Reservation
             </a>
           </li>
+          @if (isAdmin) {
           <li>
             <a [routerLink]="'/dashboard'"
                class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
               Dashboard
             </a>
           </li>
+          }
           <li>
             <button (click)="onLogout()"
                     class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52 cursor-pointer no-underline">
