@@ -36,8 +36,11 @@ export class UserService {
   }
 
   // get all user with pagination
-  getUsers(page: number, size: number): Observable<IUserPage> {
-    return this.http.get<IUserPage>(`${this.baseUrl}/users?page=${page}&size=${size}`);
+  getUsers(param: string, token: string, page: number, size: number, column: string, direction: string): Observable<IUserPage> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<IUserPage>(`${this.baseUrl}/users?param=${param}&page=${page}&size=${size}&sort=${column},${direction}`, { headers });
   }
 
 

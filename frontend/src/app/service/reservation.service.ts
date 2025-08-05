@@ -13,11 +13,11 @@ export class ReservationService {
   constructor(private http: HttpClient) {}
 
   // Fetch reservations with pagination and authorization token
-  getReservations(token: string, page: number, size: number): Observable<IReservationPage> {
+  getReservations(param: string,token: string, page: number, size: number, column: string, direction: string): Observable<IReservationPage> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<any>(`${this.baseUrl}/reservation?page=${page}&size=${size}`, { headers });
+    return this.http.get<any>(`${this.baseUrl}/reservation?param=${param}&page=${page}&size=${size}&sort=${column},${direction}`, { headers });
   }
 
   // Post a new reservation and return the created reservation
@@ -26,7 +26,7 @@ export class ReservationService {
     return firstValueFrom(this.http.post<IReservation>(`${this.baseUrl}/reservation`, reservation));
   }
 
-  // Get reservations for the current user using authorization token
+  // Get reservations for the current user using an authorization token
   getUserReservations(token: string,  page: number, size: number): Observable<IReservationPage> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

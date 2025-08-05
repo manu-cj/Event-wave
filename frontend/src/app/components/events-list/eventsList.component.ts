@@ -1,17 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IEventPage} from '../../models/event.model';
 import {EventService} from '../../service/event.service';
 import {interval, Subject, takeUntil} from 'rxjs';
+import {FormsModule} from '@angular/forms';
+import {Funnel, LucideAngularModule, Search} from 'lucide-angular';
 
 @Component({
   selector: 'app-events-list',
-  imports: [],
+  imports: [
+    FormsModule,
+    LucideAngularModule
+  ],
   templateUrl: './eventsList.component.html',
 })
 export class EventsList implements OnInit, OnDestroy {
   eventPage: IEventPage | null = null;
+  @Input() param: string = '';
   page: number = 0;
   pageSize: number = 10;
+  selectedFilter: string = '';
+  sortedColumn: string = 'createdAt';
+  sortedDirection: string = 'desc';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -31,11 +40,59 @@ export class EventsList implements OnInit, OnDestroy {
   }
 
   loadEvents() : void {
-    this.eventApi.getEvents(this.page, this.pageSize).subscribe({
+    this.eventApi.getEvents(this.param, this.page, this.pageSize, this.sortedColumn, this.sortedDirection).subscribe({
       next: async (result: IEventPage) => {
         this.eventPage = result;
       }
     })
+  }
+
+  applySelectedFilter() : void {
+    switch (this.selectedFilter) {
+      case 'dateAsc':
+        this.filterDateAsc();
+        break;
+      case 'dateDesc':
+        this.filterDateDesc();
+        break;
+      case 'titleAsc':
+        this.filterTitleAsc();
+        break;
+      case 'titleDesc':
+        this.filterTitleDesc();
+        break;
+    }
+  }
+
+  filterDateAsc() : void {
+    this.sortedColumn = 'createdAt';
+    if (this.sortedDirection === 'desc') {
+      this.sortedDirection = 'asc';
+    }
+    this.loadEvents();
+  }
+
+  filterDateDesc() : void {
+    this.sortedColumn = 'createdAt';
+    if (this.sortedDirection === 'asc') {
+      this.sortedDirection = 'desc';
+    }
+    this.loadEvents();
+  }
+
+  filterTitleAsc() : void {
+    this.sortedColumn = 'title';
+    if (this.sortedDirection === 'desc') {
+      this.sortedDirection = 'asc';
+    }
+    this.loadEvents();
+  }
+  filterTitleDesc() : void {
+    this.sortedColumn = 'title';
+    if (this.sortedDirection === 'asc') {
+      this.sortedDirection = 'desc';
+    }
+    this.loadEvents();
   }
 
   nextPage() : void {
@@ -49,4 +106,7 @@ export class EventsList implements OnInit, OnDestroy {
       this.loadEvents();
     }
   }
+
+  protected readonly Search = Search;
+  protected readonly Funnel = Funnel;
 }

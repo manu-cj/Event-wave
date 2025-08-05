@@ -30,13 +30,17 @@ export class EventService {
   }
 
   // Retrieves a paginated list of events
-  getEvents(page: number, size: number): Observable<IEventPage> {
-    return this.http.get<IEventPage>(`${this.baseUrl}/events?page=${page}&size=${size}`);
+  getEvents(title: string ,page: number, size: number, sortColumn: string, sortDirection: string): Observable<IEventPage> {
+    return this.http.get<IEventPage>(`${this.baseUrl}/events?title=${title}&page=${page}&size=${size}&sort=${sortColumn},${sortDirection}`);
   }
 
   // Retrieves a single event by its ID
   getEventById(id: string): Observable<IEvent> {
     return this.http.get<IEvent>(`${this.baseUrl}/events/${id}`);
+  }
+
+  getLastEvents(): Observable<IEvent[]> {
+    return this.http.get<IEvent[]>(`${this.baseUrl}/events/lastEvent`);
   }
 }
 

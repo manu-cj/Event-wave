@@ -16,7 +16,6 @@ export class NavbarComponent implements OnInit {
   links: { label: string; path: string }[] = [
     { label: 'Home', path: '/' },
     { label: 'Events', path: '/events' },
-    { label: 'Dashboard', path: '/dashboard' },
   ];
   username: string = '';
   isConnected: boolean = false;

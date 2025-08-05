@@ -37,8 +37,11 @@ export class Dashboard implements OnInit {
   viewMode: 'users' | 'events' | 'reservations' = 'users';
   userPage: IUserPage | null = null;
   eventPage: IEventPage = {} as IEventPage;
+  param: string = '';
   page: number = 0;
   pageSize: number = 10;
+  sortedColumn: string = 'date';
+  sortedDirection: string = 'desc';
   isModalOpen: boolean = false;
   token: string = '';
 
@@ -46,13 +49,14 @@ export class Dashboard implements OnInit {
   readonly CalendarRange = CalendarRange;
   readonly Ticket = Ticket;
   readonly Plus = Plus;
+  protected readonly X = X;
+
 
 
 
   constructor(
     private api: UserService,
     private router: Router,
-    private eventApi: EventService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -76,40 +80,11 @@ export class Dashboard implements OnInit {
         await this.router.navigate(['/login']);
       }
     });
-
-    this.loadUsers();
-    this.loadEvents();
   }
 
-  loadUsers() : void {
-    this.api.getUsers(this.page, this.pageSize).subscribe({
-      next: async (result: IUserPage) => {
-        this.userPage = result;
-      }
-    });
-  }
 
-  loadEvents() : void {
-    this.eventApi.getEvents(this.page, this.pageSize).subscribe({
-      next: async (result: IEventPage) => {
-        this.eventPage = result;
-      }
-    })
-  }
 
-  nextPage() : void {
-    this.page++;
-    this.loadUsers();
-    this.loadEvents();
-  }
 
-  prevPage() : void {
-    if (this.page > 0) {
-      this.page--;
-      this.loadUsers();
-      this.loadEvents();
-    }
-  }
 
   openModal() {
     this.isModalOpen = true;
@@ -119,5 +94,4 @@ export class Dashboard implements OnInit {
     this.isModalOpen = false;
   }
 
-  protected readonly X = X;
 }

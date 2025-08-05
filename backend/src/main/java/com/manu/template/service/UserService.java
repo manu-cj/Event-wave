@@ -44,8 +44,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Page<UserInfoDTO> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable)
+    public Page<UserInfoDTO> getAllUsers(String param,Pageable pageable) {
+        return userRepository.searchBySingleParam(param, pageable)
                 .map(UserMapper::toDto);
     }
 }

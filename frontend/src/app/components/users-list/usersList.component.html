@@ -1,6 +1,65 @@
   <h2 class="text-3xl font-bold mb-8 text-center text-gray-800 tracking-tight">Users List</h2>
 
   <div class="overflow-x-auto rounded-lg border border-gray-200">
+
+    <div class="w-9/10 max-w-6xl mx-auto px-4 py-6 bg-white border border-gray-200 shadow-sm rounded-lg space-y-4">
+      <div class="flex flex-wrap md:flex-nowrap items-end justify-between gap-4">
+        <!-- Zone de recherche -->
+        <div class="flex-1">
+          <label for="search" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+            <lucide-angular [img]="Search" class="w-4 h-4 text-orange-600"></lucide-angular>
+            <span>Research user</span>
+          </label>
+          <input
+            id="search"
+            type="text"
+            [(ngModel)]="param"
+            (keyup.enter)="loadUsers()"
+            placeholder="Ex: nom d'utilisateur, email..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+
+        <!-- Menu de filtres -->
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+          <div class="flex flex-col">
+            <label for="search" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <lucide-angular [img]="Funnel" class="w-4 h-4 text-orange-600"></lucide-angular>
+              <span>filter by</span>
+            </label>
+            <select
+              id="sortFilter"
+              [(ngModel)]="selectedFilter"
+              (change)="applySelectedFilter()"
+              class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>Choose...</option>
+              <option value="dateDesc">Date ↓ (most)</option>
+              <option value="dateAsc">Date ↑ (oldest)</option>
+              <option value="usernameAsc">Name A → Z</option>
+              <option value="usernameDesc">Name Z → A</option>
+            </select>
+          </div>
+
+          <!-- Filtre supplémentaire -->
+          <!-- Tu peux ajouter d'autres critères ici si besoin -->
+        </div>
+
+        <!-- Bouton d'action -->
+        <div>
+          <button
+            (click)="loadUsers()"
+            class="inline-flex items-center px-5 py-2.5 bg-orange-600 text-white font-semibold rounded-md shadow hover:bg-orange-700 transition focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
+          >
+            <lucide-angular [img]="Search" class="w-4 h-4 pr-2"></lucide-angular>
+            <span>Apply</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
     <table class="min-w-full text-sm text-left text-gray-600">
       <thead class="bg-gray-50 border-b border-gray-200">
       <tr>
@@ -27,6 +86,12 @@
             </tr>
           }
         }
+        @else {
+          <tr>
+            <td colspan="6" class="py-8 text-center text-lg text-gray-500 bg-gray-50 rounded-b-lg">No users found</td>
+          </tr>
+        }
+
       </tbody>
     </table>
   </div>

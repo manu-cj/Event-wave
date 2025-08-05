@@ -37,11 +37,7 @@ export class Reservations implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.token = this.auth.getToken() as string;
 
-    this.reservationApi.getReservations(this.token, 0, 10).subscribe({
-      next: async (result) => {
-        console.log(result);
-      }
-    })
+
     this.loadReservation();
     interval(10000)
       .pipe(takeUntil(this.destroy$))

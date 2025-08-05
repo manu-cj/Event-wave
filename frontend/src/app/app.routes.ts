@@ -6,8 +6,10 @@ import {Events} from './pages/events/events';
 import {EventDetails} from './pages/event-details/eventDetails';
 import {Reservations} from './pages/reservations/reservations';
 import {App} from './app';
+import {HomePage} from './pages/homePage/home';
 
 export const routes: Routes = [
+  { path: '', component: HomePage },
   { path: 'login', component: AuthComponent },
   { path: 'dashboard', component: Dashboard },
   { path: 'register', component: Register},

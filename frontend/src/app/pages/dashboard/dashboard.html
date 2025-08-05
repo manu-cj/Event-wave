@@ -58,9 +58,9 @@
     }
   </div>
 
-  <div class="px-6 py-6">
+  <div class="px-10 py-10">
     @if (viewMode === 'users') {
-      <app-users-list></app-users-list>
+      <app-users-list [token]="token"></app-users-list>
     } @else if (viewMode === 'events') {
       <app-events-list></app-events-list>
     }
