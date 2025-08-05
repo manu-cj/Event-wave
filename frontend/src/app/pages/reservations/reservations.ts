@@ -23,6 +23,7 @@ export class Reservations implements OnInit, OnDestroy {
   reservationPage: IReservationPage | null = null;
   page: number = 0;
   pageSize: number = 10;
+  isLoading: boolean = false;
   private destroy$ = new Subject<void>();
   private baseUrl = environment.apiUrl;
 
@@ -37,13 +38,9 @@ export class Reservations implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.token = this.auth.getToken() as string;
 
-    this.reservationApi.getReservations(this.token, 0, 10).subscribe({
-      next: async (result) => {
-        console.log(result);
-      }
-    })
+
     this.loadReservation();
-    interval(10000)
+    interval(30000)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.loadReservation());
   }
@@ -57,6 +54,9 @@ export class Reservations implements OnInit, OnDestroy {
     this.reservationApi.getUserReservations(this.token, this.page, this.pageSize).subscribe({
       next: async (result: IReservationPage) => {
         this.reservationPage = result;
+        if (this.reservationPage.content.length > 0) {
+          this.isLoading = true;
+        }
       }
     })
   }

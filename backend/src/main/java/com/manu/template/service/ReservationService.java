@@ -48,8 +48,8 @@ public class ReservationService {
     }
 
     @Transactional
-    public Page<ReservationDTO> findAll(Pageable pageable) {
-        return reservationRepository.findAll(pageable)
+    public Page<ReservationDTO> findAll(String param, Pageable pageable) {
+        return reservationRepository.searchByUserLastnameOrFirstnameStartingWithIgnoreCase(param, pageable)
                 .map(ReservationMapper::toDto);
     }
 

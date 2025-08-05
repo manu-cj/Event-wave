@@ -3,7 +3,11 @@ package com.manu.template.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,4 +37,12 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
+
+    @Column(updatable = false)
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
 }

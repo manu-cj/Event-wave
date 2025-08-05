@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-lg z-50 border-b border-gray-200">
+<nav class="fixed top-0 left-0 w-full bg-none backdrop-blur-lg z-50 border-b border-gray-200">
   <!-- Vague  -->
   <div class="fixed w-full overflow-hidden top-0 left-0 z-5">
     <svg class="w-full h-58" viewBox="0 0 1440 100" preserveAspectRatio="none">
@@ -50,20 +50,34 @@
         @if (!isConnected) {
           <li>
             <a [routerLink]="'/login'"
-               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer">
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
               Login
             </a>
           </li>
           <li>
             <a [routerLink]="'/register'"
-               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer">
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
               Register
             </a>
           </li>
         } @else {
           <li>
+            <a [routerLink]="'/reservations'"
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
+              Reservation
+            </a>
+          </li>
+          @if (isAdmin) {
+          <li>
+            <a [routerLink]="'/dashboard'"
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
+              Dashboard
+            </a>
+          </li>
+          }
+          <li>
             <button (click)="onLogout()"
-                    class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52 cursor-pointer">
+                    class="px-2 py-1 text-sm bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition focus:ring-1 focus:ring-gray-300 active:scale-95 z-52 cursor-pointer no-underline">
               Logout
             </button>
           </li>

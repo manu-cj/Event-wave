@@ -1,9 +1,9 @@
-<div class="rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden group transform hover:-translate-y-2">
-  <div class="relative bg-gradient-to-r from-orange-100 to-orange-200 h-40 sm:h-56 overflow-hidden">
-    <img [src]="'http://localhost:8081' + event.pictureUrl"  alt="{{event.title}}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-in-out" />
+<div class="rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden group transform hover:-translate-y-2 h-full min-h-[500px]">
+  <div class="relative bg-gradient-to-r from-orange-100 to-orange-200 h-40 sm:h-64 overflow-hidden">
+    <img [src]="fileUrl + event.pictureUrl"  alt="{{event.title}}" class="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500 ease-in-out" />
     <div class="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300"></div>
-    <a [href]="`http://localhost:4200/event/` + event.id" class="absolute top-3 right-3 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase shadow-md opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 delay-100 no-underline">
-      Voir Détails
+    <a [href]="`${baseUrl}/event/${event.id}`" class="absolute top-3 right-3 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase shadow-md opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 delay-100 no-underline">
+      show details
     </a>
   </div>
   <div class="p-6 flex-1 flex flex-col">

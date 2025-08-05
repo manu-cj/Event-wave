@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,8 +33,8 @@ public class EventController {
 
     @Operation(summary = "Get all events")
     @GetMapping
-    public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
-        Page<EventDTO> response = eventService.findAll(pageable);
+    public ResponseEntity<Page<EventDTO>> findAll(String title, Pageable pageable) {
+        Page<EventDTO> response = eventService.findAll(title, pageable);
         if (response.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -73,6 +74,7 @@ public class EventController {
         }
     }
 
+    @Operation(summary = "Get event by id")
     @GetMapping("/{eventId}")
     public ResponseEntity<EventDTO> findById(@PathVariable UUID eventId) {
             EventDTO event = eventService.findById(eventId);
@@ -81,4 +83,15 @@ public class EventController {
             }
             return ResponseEntity.ok(event);
     }
+
+    @Operation(summary = "Get 3 last events")
+    @GetMapping("/lastEvent")
+    public ResponseEntity<List<EventDTO>> findTop3Events() {
+        List<EventDTO> response = eventService.findTop3Event();
+        if (response.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }

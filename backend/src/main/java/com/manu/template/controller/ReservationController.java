@@ -33,8 +33,8 @@ public class ReservationController {
     @Operation(summary = "get all reservation")
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<ReservationDTO>> findAll(Pageable pageable) {
-        Page<ReservationDTO> response = reservationService.findAll(pageable);
+    public ResponseEntity<Page<ReservationDTO>> findAll(String param, Pageable pageable) {
+        Page<ReservationDTO> response = reservationService.findAll(param, pageable);
         if (response.isEmpty()) {
             return  ResponseEntity.noContent().build();
         }

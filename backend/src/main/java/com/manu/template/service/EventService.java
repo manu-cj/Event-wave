@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -28,8 +31,8 @@ public class EventService {
     }
 
 
-    public Page<EventDTO> findAll(Pageable pageable) {
-        return eventRepository.findAll(pageable)
+    public Page<EventDTO> findAll(String title, Pageable pageable) {
+        return eventRepository.findByTitleIgnoreCaseContaining(title, pageable)
                 .map(EventMapper::toDto);
     }
 
@@ -37,6 +40,13 @@ public class EventService {
         return eventRepository.findById(eventId)
                 .map(EventMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
+    }
+
+    public List<EventDTO> findTop3Event() {
+        return eventRepository.findTop3ByOrderByDateDesc()
+                .stream()
+                .map(EventMapper::toDto)
+                .toList();
     }
 
 

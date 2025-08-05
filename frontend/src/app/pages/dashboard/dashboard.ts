@@ -7,8 +7,6 @@ import {Modal} from '../../components/modal/modal';
 import {UsersList} from '../../components/users-list/usersList.component';
 import {EventFormComponent} from '../../components/event-form/event-form';
 import {NgClass} from '@angular/common';
-import {IEventPage} from '../../models/event.model';
-import {EventService} from '../../service/event.service';
 import {EventsList} from '../../components/events-list/eventsList.component';
 import {LucideAngularModule, Users, CalendarRange, Ticket, X, Plus} from 'lucide-angular';
 import {ReservationsList} from '../../components/reservation-list/reservationList.component';
@@ -35,10 +33,8 @@ export class Dashboard implements OnInit {
     role: ""
   }
   viewMode: 'users' | 'events' | 'reservations' = 'users';
-  userPage: IUserPage | null = null;
-  eventPage: IEventPage = {} as IEventPage;
   page: number = 0;
-  pageSize: number = 10;
+  isAdmin: boolean = false;
   isModalOpen: boolean = false;
   token: string = '';
 
@@ -46,13 +42,14 @@ export class Dashboard implements OnInit {
   readonly CalendarRange = CalendarRange;
   readonly Ticket = Ticket;
   readonly Plus = Plus;
+  protected readonly X = X;
+
 
 
 
   constructor(
     private api: UserService,
     private router: Router,
-    private eventApi: EventService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -68,6 +65,9 @@ export class Dashboard implements OnInit {
           this.user.username = result.username;
           this.user.email = result.email;
           this.user.role = result.role;
+          if (result.role !== 'ADMIN') {
+            await this.router.navigate(['/']);
+          };
         } else {
           await this.router.navigate(['/login']);
         }
@@ -76,40 +76,8 @@ export class Dashboard implements OnInit {
         await this.router.navigate(['/login']);
       }
     });
-
-    this.loadUsers();
-    this.loadEvents();
   }
 
-  loadUsers() : void {
-    this.api.getUsers(this.page, this.pageSize).subscribe({
-      next: async (result: IUserPage) => {
-        this.userPage = result;
-      }
-    });
-  }
-
-  loadEvents() : void {
-    this.eventApi.getEvents(this.page, this.pageSize).subscribe({
-      next: async (result: IEventPage) => {
-        this.eventPage = result;
-      }
-    })
-  }
-
-  nextPage() : void {
-    this.page++;
-    this.loadUsers();
-    this.loadEvents();
-  }
-
-  prevPage() : void {
-    if (this.page > 0) {
-      this.page--;
-      this.loadUsers();
-      this.loadEvents();
-    }
-  }
 
   openModal() {
     this.isModalOpen = true;
@@ -119,5 +87,4 @@ export class Dashboard implements OnInit {
     this.isModalOpen = false;
   }
 
-  protected readonly X = X;
 }
