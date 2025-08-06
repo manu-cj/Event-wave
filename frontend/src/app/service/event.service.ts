@@ -22,11 +22,9 @@ export class EventService {
       // Add file if provided
       formData.append('file', file);
     }
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+
     // Send POST request to create event
-    return firstValueFrom(this.http.post<IEvent>(`${this.baseUrl}/events`, formData, { headers }));
+    return firstValueFrom(this.http.post<IEvent>(`${this.baseUrl}/events`, formData,  { withCredentials: true }));
   }
 
   // Retrieves a paginated list of events

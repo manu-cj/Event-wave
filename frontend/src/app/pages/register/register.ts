@@ -34,7 +34,7 @@ export class Register implements OnInit{
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.api.getUserInfo(token).subscribe({
+      this.api.getUserInfo().subscribe({
         next: () => {
           this.router.navigate(['/dashboard']);
         },

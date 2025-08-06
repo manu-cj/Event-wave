@@ -8,6 +8,7 @@ import com.manu.template.model.User;
 import com.manu.template.security.AuthService;
 import com.manu.template.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,8 +38,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public JwtResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return authService.authenticate(userLoginDTO);
+    public ResponseEntity<JwtResponseDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO, jakarta.servlet.http.HttpServletResponse response) {
+        JwtResponseDTO jwtResponse = authService.authenticateAndGetToken(userLoginDTO, response).getBody();
+
+
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/register/admin")

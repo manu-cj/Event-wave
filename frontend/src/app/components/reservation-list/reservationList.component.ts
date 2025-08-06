@@ -42,7 +42,7 @@ export class ReservationsList implements OnInit, OnDestroy {
   }
 
   loadReservation() : void {
-    this.ReservationApi.getReservations(this.param, this.token, this.page, this.pageSize, this.sortedColumn, this.sortedDirection).subscribe({
+    this.ReservationApi.getReservations(this.param, this.page, this.pageSize, this.sortedColumn, this.sortedDirection).subscribe({
       next: async (result: IReservationPage) => {
         this.reservationPage = result;
       }

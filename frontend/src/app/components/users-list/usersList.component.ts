@@ -46,7 +46,7 @@ export class UsersList implements OnInit, OnDestroy {
   }
 
   loadUsers() : void {
-    this.api.getUsers(this.param, this.token, this.page, this.pageSize, this.sortedColumn, this.sortedDirection).subscribe({
+    this.api.getUsers(this.param, this.page, this.pageSize, this.sortedColumn, this.sortedDirection).subscribe({
       next: async (result: IUserPage) => {
         this.userPage = result;
       }

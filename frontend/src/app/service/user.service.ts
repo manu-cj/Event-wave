@@ -13,11 +13,9 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   //get user info with token
-  getUserInfo(token: string): Observable<IUser> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<any>(this.baseUrl + '/auth/me', { headers });
+  getUserInfo(): Observable<IUser> {
+
+    return this.http.get<any>(this.baseUrl + '/auth/me', { withCredentials: true });
   }
 
   //create user
@@ -27,7 +25,7 @@ export class UserService {
 
   //login user
   async login(user: ILogin): Promise<ILogin> {
-    return firstValueFrom(this.http.post<ILogin>(`${this.baseUrl}/auth/login`, user));
+    return firstValueFrom(this.http.post<ILogin>(`${this.baseUrl}/auth/login`, user, { withCredentials: true }));
   }
 
   // create Admin
@@ -36,11 +34,9 @@ export class UserService {
   }
 
   // get all user with pagination
-  getUsers(param: string, token: string, page: number, size: number, column: string, direction: string): Observable<IUserPage> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<IUserPage>(`${this.baseUrl}/users?param=${param}&page=${page}&size=${size}&sort=${column},${direction}`, { headers });
+  getUsers(param: string, page: number, size: number, column: string, direction: string): Observable<IUserPage> {
+
+    return this.http.get<IUserPage>(`${this.baseUrl}/users?param=${param}&page=${page}&size=${size}&sort=${column},${direction}`, { withCredentials: true });
   }
 
 
