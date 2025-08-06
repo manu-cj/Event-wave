@@ -67,6 +67,12 @@
               Reservation
             </a>
           </li>
+          <li>
+            <a [routerLink]="'/profile'"
+               class="px-2 py-1 text-sm text-gray-700 rounded-lg font-medium transition hover:bg-gray-100 z-52 cursor-pointer no-underline">
+              Profile
+            </a>
+          </li>
           @if (isAdmin) {
           <li>
             <a [routerLink]="'/dashboard'"
