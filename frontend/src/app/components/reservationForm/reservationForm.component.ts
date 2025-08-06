@@ -35,7 +35,7 @@ export class ReservationForm {
       return;
     }
     this.token = token;
-    this.api.getUserInfo(token).subscribe({
+    this.api.getUserInfo().subscribe({
       next: async (result: IUser) => {
         if (result?.id && result?.username && result?.email && result?.role) {
           this.reservation.user = result;

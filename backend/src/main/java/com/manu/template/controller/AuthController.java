@@ -8,6 +8,8 @@ import com.manu.template.model.User;
 import com.manu.template.security.AuthService;
 import com.manu.template.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,8 +39,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public JwtResponseDTO login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return authService.authenticate(userLoginDTO);
+    public ResponseEntity<JwtResponseDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO, HttpServletResponse response) {
+        JwtResponseDTO jwtResponse = authService.authenticateAndGetToken(userLoginDTO, response).getBody();
+
+        return ResponseEntity.ok(jwtResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.ok().body(Map.of("message", "logout with success"));
     }
 
     @PostMapping("/register/admin")

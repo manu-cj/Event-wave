@@ -37,6 +37,8 @@ export class Dashboard implements OnInit {
   isAdmin: boolean = false;
   isModalOpen: boolean = false;
   token: string = '';
+  error = '';
+  success = '';
 
   readonly Users = Users;
   readonly CalendarRange = CalendarRange;
@@ -53,24 +55,10 @@ export class Dashboard implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      await this.router.navigate(['/login']);
-      return;
-    }
-    this.token = token;
-    this.api.getUserInfo(token).subscribe({
-      next: async (result: IUser) => {
-        if (result?.username && result?.email && result?.role) {
-          this.user.username = result.username;
-          this.user.email = result.email;
-          this.user.role = result.role;
-          if (result.role !== 'ADMIN') {
-            await this.router.navigate(['/']);
-          };
-        } else {
-          await this.router.navigate(['/login']);
-        }
+
+    this.api.getUserInfo().subscribe({
+      next: async () => {
+        await this.router.navigate(['/dashboard']);
       },
       error: async () => {
         await this.router.navigate(['/login']);

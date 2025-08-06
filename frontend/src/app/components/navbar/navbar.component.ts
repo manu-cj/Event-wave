@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router, RouterModule} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
 import {UserService} from '../../service/user.service';
@@ -24,29 +24,32 @@ export class NavbarComponent implements OnInit {
   readonly waves = Waves;
 
   constructor(
-    private api: UserService,
+    private userApi: UserService,
     private auth: AuthService,
     private router: Router,
   ) {}
 
 
   async ngOnInit(): Promise<void> {
-    this.isConnected = !!this.auth.getToken();
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.api.getUserInfo(token).subscribe({
-        next: async (result: IUser) => {
-          if (result?.username && result?.email && result?.role) {
-            this.username = result.username;
-            result.role === 'ADMIN' ? this.isAdmin = true : this.isAdmin = false;
-          }
+    this.userApi.getUserInfo().subscribe({
+      next: (result: IUser) => {
+        if (result?.username && result?.email && result?.role) {
+          this.username = result.username;
+          this.isAdmin = result.role === 'ADMIN';
+          this.isConnected = true;
+        } else {
+          this.isConnected = false;
         }
-      });
-    }
+      },
+      error: () => {
+        this.isConnected = false;
+      }
+    });
   }
 
-  async onLogout() : Promise<void> {
-    this.auth.clearToken();
+   async onLogout(): Promise<void> {
+    await this.userApi.logout();
+    this.isConnected = false;
     await this.router.navigate(['/login']);
   }
 

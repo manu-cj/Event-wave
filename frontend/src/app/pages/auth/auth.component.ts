@@ -27,34 +27,29 @@ export class AuthComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.api.getUserInfo(token).subscribe({
-        next:async () => {
-          await this.router.navigate(['/dashboard']);
-        },
-        error: () => {
-          localStorage.removeItem('token');
-          this.error = 'Session expirée ou token invalide. Veuillez vous reconnecter.';
-        }
-      });
-    }
+    this.api.getUserInfo().subscribe({
+      next: async () => {
+        await this.router.navigate(['/dashboard']);
+      },
+      error: () => {
+        this.error = 'You are not connected. Please login or register.';
+      }
+    });
   }
 
   async onLogin() {
     try {
       const user: ILogin = { email: this.email, password: this.password };
       const result: any = await this.api.login(user);
-      if (result.token) {
-        this.auth.setToken(result.token);
+      if (result && result.token) {
         this.error = '';
-        this.success = "Authentification reussie";
+        this.success = "Authentification with success";
         await this.router.navigate(['/dashboard']);
       } else {
-        this.error = 'Authentification échouée';
+        this.error = 'Authentification failed';
       }
     } catch (e) {
-      this.error = 'Erreur lors de la connexion';
+      this.error = 'Error when logging in :';
     }
   }
 }

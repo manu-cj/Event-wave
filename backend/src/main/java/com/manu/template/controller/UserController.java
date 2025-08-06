@@ -29,7 +29,7 @@ public class UserController {
     @Operation(summary = "get all users")
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<UserInfoDTO>> getAllUsers(String param, Pageable pageable) {
+    public ResponseEntity<Page<UserInfoDTO>> getAllUsers(@RequestParam(required = false) String param, Pageable pageable) {
         Page<UserInfoDTO> response = userService.getAllUsers(param, pageable);
         if (response.isEmpty()) {
             return ResponseEntity.noContent().build();

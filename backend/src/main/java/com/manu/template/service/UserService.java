@@ -55,6 +55,13 @@ public class UserService {
                 .map(UserMapper::toDto);
     }
 
+    public User findByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return user;
+    }
+
     @Transactional
     public User changeRole(String role, UUID userId) {
         User user = userRepository.findById(userId)
