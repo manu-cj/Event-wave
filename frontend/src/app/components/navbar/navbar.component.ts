@@ -47,8 +47,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  async onLogout() : Promise<void> {
-    this.auth.clearToken();
+   async onLogout() {
+    await this.api.logout();
+    this.isConnected = false;
     await this.router.navigate(['/login']);
   }
 

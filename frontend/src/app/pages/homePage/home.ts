@@ -40,13 +40,13 @@ export class HomePage implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.isConnected = !!this.auth.getToken();
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (!this.isConnected) {
       this.userApi.getUserInfo().subscribe({
         next: async (result: IUser) => {
           if (result?.username && result?.email && result?.role) {
             this.username = result.username;
+            this.isConnected = true;
+            console.log(this.username)
           }
         }
       });

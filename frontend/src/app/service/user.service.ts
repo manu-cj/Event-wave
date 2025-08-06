@@ -28,6 +28,11 @@ export class UserService {
     return firstValueFrom(this.http.post<ILogin>(`${this.baseUrl}/auth/login`, user, { withCredentials: true }));
   }
 
+  // logout user
+  async logout(): Promise<any> {
+    return firstValueFrom(this.http.post<any>(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true }));
+  }
+
   // create Admin
   async postAdmin(user: IRegister): Promise<IRegister> {
     return firstValueFrom(this.http.post<IRegister>(`${this.baseUrl}/auth/register/admin`, user));

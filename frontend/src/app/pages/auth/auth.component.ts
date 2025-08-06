@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
         await this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.error = 'Session expirée ou accès non autorisé. Veuillez vous reconnecter.';
+        this.error = 'You are not connected. Please login or register.';
       }
     });
   }
@@ -43,13 +43,13 @@ export class AuthComponent implements OnInit {
       const result: any = await this.api.login(user);
       if (result && result.token) {
         this.error = '';
-        this.success = "Authentification reussie";
+        this.success = "Authentification with success";
         await this.router.navigate(['/dashboard']);
       } else {
-        this.error = 'Authentification échouée';
+        this.error = 'Authentification failed';
       }
     } catch (e) {
-      this.error = 'Erreur lors de la connexion';
+      this.error = 'Error when logging in :';
     }
   }
 }
