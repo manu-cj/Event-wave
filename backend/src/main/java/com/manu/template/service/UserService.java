@@ -62,6 +62,10 @@ public class UserService {
         return user;
     }
 
+    public boolean usernameExist(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
     @Transactional
     public User changeRole(String role, UUID userId) {
         User user = userRepository.findById(userId)
@@ -73,12 +77,11 @@ public class UserService {
 
     @Transactional
     public UserInfoDTO updateUserInfo(UUID userId, UserInfoDTO userInfo) {
-        User user = userRepository.findById(userInfo.getId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
+        user.setUsername(userInfo.getUsername());
         user.setFirstname(userInfo.getFirstname());
         user.setLastname(userInfo.getLastname());
-        user.setEmail(userInfo.getEmail());
 
         User saved = userRepository.save(user);
         return UserMapper.toDto(saved);

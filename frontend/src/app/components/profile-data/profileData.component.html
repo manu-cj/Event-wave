@@ -1,40 +1,111 @@
-  <section class="w-full max-w-xl">
-    <div class="relative bg-white rounded-xl border border-gray-200 p-8">
+<div class="flex flex-col items-center w-full min-h-screen py-12">
+    <section class="w-full mb-4">
+      <div class="relative bg-white rounded-xl border border-gray-200 p-8">
 
-      <!-- Badge rôle -->
-      <div class="absolute top-4 right-4 bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full capitalize">
-        {{ user.role }}
-      </div>
+        <!-- Badge rôle -->
+        <div class="absolute top-4 right-4 bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full capitalize">
+          {{ user.role }}
+        </div>
 
-      <!-- Avatar + nom -->
-      <div class="flex items-center gap-4 mb-6">
-        <div class="w-14 h-14 rounded-full bg-orange-50 text-orange-500 font-bold text-lg flex items-center justify-center shadow-sm uppercase">
-          {{ user.firstname?.[0] || '' }}{{ user.lastname?.[0] || '' }}
+        <!-- Avatar + nom -->
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-14 h-14 rounded-full bg-orange-50 text-orange-500 font-bold text-lg flex items-center justify-center shadow-sm uppercase">
+            {{ user.firstname?.[0] || '' }}{{ user.lastname?.[0] || '' }}
+          </div>
+          <div>
+            <h2 class="text-xl font-semibold text-gray-900">{{ user.firstname }} {{ user.lastname }}</h2>
+            <p class="text-gray-500 text-sm">{{ user.username }}</p>
+          </div>
         </div>
-        <div>
-          <h2 class="text-xl font-semibold text-gray-900">{{ user.firstname }} {{ user.lastname }}</h2>
-          <p class="text-gray-500 text-sm">{{ user.username }}</p>
-        </div>
-      </div>
 
-      <!-- Infos -->
-      <div class="space-y-8 text-left">
-        <div>
-          <span class="text-sm text-gray-500">First name: </span>
-          <span class="text-sm text-gray-900 font-medium ml-2">{{ user.firstname }}</span>
-        </div>
-        <div>
-          <span class="text-sm text-gray-500">Last name: </span>
-          <span class="text-sm text-gray-900 font-medium ml-2">{{ user.lastname }}</span>
-        </div>
-        <div>
-          <span class="text-sm text-gray-500">Username: </span>
-          <span class="text-sm text-gray-900 font-medium ml-2">{{ user.username }}</span>
-        </div>
-        <div>
-          <span class="text-sm text-gray-500">Email: </span>
-          <span class="text-sm text-gray-900 font-medium break-all ml-2">{{ user.email }}</span>
-        </div>
+        <!-- Infos sous forme de formulaire -->
+        <form class="space-y-6 text-left">
+          <div>
+            <label class="block text-sm text-gray-500 mb-1" for="firstname">First name</label>
+            <input id="firstname" type="text" [value]="user.firstname" [(ngModel)]="user.firstname" name="firstname"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500 mb-1" for="lastname">Last name</label>
+            <input id="lastname" type="text" [value]="user.lastname" [(ngModel)]="user.lastname" name="lastname"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500 mb-1" for="username">Username</label>
+            <input id="username" type="text" [value]="user.username" (ngModelChange)="userInfoChange = true" [(ngModel)]="user.username" name="username" (keyup)="usernameExist()"
+                   class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none" />
+            @if (usernameAlreadyTaken && username !== user.username) {
+              <p class="text-red-500 text-xs">Username '{{user.username}}' already taken</p>
+            } @else if (usernameValid && username !== user.username) {
+              <p class="text-green-500 text-xs">Username '{{user.username}}' available</p>
+            } @else if (username === user.username) {
+              <p></p>
+            }
+          </div>
+          <div class="flex flex-col gap-2 my-4">
+          @if (userInfosError !== "") {
+            <div class="flex items-center gap-2 bg-red-100 border border-red-300 rounded-lg px-4 py-2">
+              <span class="material-icons text-green-500 text-base"><lucide-angular [img]="XCircle" class="w-4 h-4 text-red-500"></lucide-angular></span>
+              <p class="text-red-700 text-sm font-medium">{{ userInfosError }}</p>
+            </div>
+          }
+          @if (userInfosSuccess !== "") {
+            <div class="flex items-center gap-2 bg-green-100 border border-green-300 rounded-lg px-4 py-2">
+              <span class="material-icons text-green-500 text-base"><lucide-angular [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-angular></span>
+              <p class="text-green-700 text-sm font-medium">{{ userInfosSuccess }}</p>
+            </div>
+          }
+          </div>
+          <button type="submit" (click)="putUserInfos()" class="bg-green-700 text-white py-2 rounded-lg font-semibold shadow hover:bg-green-600 transition cursor-pointer">Change infos</button>
+        </form>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="w-full mb-4">
+      <div class="bg-white rounded-xl border border-gray-200 p-8 shadow">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Change password</h3>
+        <form class="space-y-6">
+          <div>
+            <label for="currentPassword" class="block text-sm font-medium text-gray-600 mb-1">Current password</label>
+            <input id="currentPassword" type="password"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none"
+              placeholder="Enter current password" autocomplete="current-password">
+          </div>
+          <div>
+            <label for="newPassword" class="block text-sm font-medium text-gray-600 mb-1">New password</label>
+            <input id="newPassword" type="password"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none"
+              placeholder="Enter new password" autocomplete="new-password">
+          </div>
+          <div>
+            <label for="repeatPassword" class="block text-sm font-medium text-gray-600 mb-1">Repeat new password</label>
+            <input id="repeatPassword" type="password"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none"
+              placeholder="Repeat new password" autocomplete="new-password">
+          </div>
+          <button type="submit" class="bg-green-700 text-white py-2 rounded-lg font-semibold shadow hover:bg-green-600 transition cursor-pointer">Change password</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="w-full mb-4">
+      <div class="bg-white rounded-xl border border-gray-200 p-8 shadow">
+        <h3 class="text-lg font-semibold text-gray-800 mb-6">Change email</h3>
+        <form class="space-y-6">
+          <div>
+            <label for="newEmail" class="block text-sm font-medium text-gray-600 mb-1">New email</label>
+            <input id="newEmail" type="email"
+              class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none"
+              placeholder="Enter new email" autocomplete="email">
+          </div>
+          <div>
+            <label for="currentPassword" class="block text-sm font-medium text-gray-600 mb-1">Current password</label>
+            <input id="currentPassword" type="password"
+                   class="w-4/5 px-5 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-900 font-medium focus:outline-none"
+                   placeholder="Enter current password" autocomplete="current-password">
+          </div>
+          <button type="submit" class="bg-green-700 text-white py-2 rounded-lg font-semibold shadow hover:bg-green-600 transition cursor-pointer">Change email</button>
+        </form>
+      </div>
+    </section>
+  </div>

@@ -37,18 +37,30 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Verify if username already exist")
+    @GetMapping("/exists/{username}")
+    public ResponseEntity<Boolean> usernameExists(@PathVariable String username) {
+        boolean exists = userService.usernameExist(username);
+        return ResponseEntity.ok(exists);
+    }
+
     @Operation(summary = "Update user info")
     @PutMapping()
     // Method for update user info with token
     public ResponseEntity<Map<String, String>> updateUserInfo(@AuthenticationPrincipal User user, @RequestBody UserInfoDTO userInfoDTO) {
         Map<String, String> response = new HashMap<>();
+        if (user == null) {
+            response.put("message", "Utilisateur non authentifié");
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
         try {
             userService.updateUserInfo(user.getId(), userInfoDTO);
             response.put("message", "User info update with success");
             response.put("status", "success");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("message", "Erreur occurred when update User info " + e.getMessage());
+            response.put("message", "Erreur occurred when update User info " + e.getMessage() + " " + user.getId());
             response.put("status", "error");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
