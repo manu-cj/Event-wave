@@ -44,5 +44,15 @@ export class UserService {
     return this.http.get<IUserPage>(`${this.baseUrl}/users?param=${param}&page=${page}&size=${size}&sort=${column},${direction}`, { withCredentials: true });
   }
 
+  // verify if a username already exists
+  verifyUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/users/exists/${username}`);
+  }
+
+  // put userInfos
+  async putUserInfos(userInfos: IUser): Promise<IUser> {
+    return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users`, userInfos, { withCredentials: true }));
+  }
+
 
 }
