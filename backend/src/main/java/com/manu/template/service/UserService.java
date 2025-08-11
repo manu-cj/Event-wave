@@ -66,6 +66,10 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
+    public boolean emailExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
     @Transactional
     public User changeRole(String role, UUID userId) {
         User user = userRepository.findById(userId)
@@ -88,21 +92,25 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoDTO passwordChange(PasswordChangeDTO dto) {
+    public UserInfoDTO passwordChange(UUID userId, PasswordChangeDTO dto) {
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             throw new IllegalArgumentException("Passwords do not match");
         }
-        User user = userRepository.findById(dto.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!passwordEncoder.matches(dto.getOldPassword(), dto.getNewPassword())) {
+            throw new BadCredentialsException("Invalid credentials");
+        }
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         User saved = userRepository.save(user);
         return UserMapper.toDto(saved);
     }
 
     @Transactional
-    public UserInfoDTO mailChange(MailChangeDTO dto) {
+    public UserInfoDTO mailChange(UUID userId, MailChangeDTO dto) {
 
-        User user = userRepository.findById(dto.getId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {

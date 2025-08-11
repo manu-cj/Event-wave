@@ -14,8 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class MailChangeDTO {
-    @NotNull
-    private UUID id;
 
     @NotBlank
     private String mail;
