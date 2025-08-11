@@ -20,6 +20,17 @@ export interface IRegister {
   password: string;
 }
 
+export interface IPasswordData {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface IEmailData {
+  email: string;
+  password: string;
+}
+
 export interface IUserPage {
   content: IUser[];
   pageable: {

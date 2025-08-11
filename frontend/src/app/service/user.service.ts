@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {firstValueFrom, Observable} from 'rxjs';
-import {ILogin, IRegister, IUser, IUserPage} from '../models/user.model';
+import {IEmailData, ILogin, IPasswordData, IRegister, IUser, IUserPage} from '../models/user.model';
 import {environment} from '../../environment/environment';
 
 @Injectable({
@@ -46,12 +46,27 @@ export class UserService {
 
   // verify if a username already exists
   verifyUsername(username: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.baseUrl}/users/exists/${username}`);
+    return this.http.get<boolean>(`${this.baseUrl}/users/exists/username/${username}`);
+  }
+
+  // verify if email already exists
+  verifyEmail(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/users/exists/email/${email}`);
   }
 
   // put userInfos
   async putUserInfos(userInfos: IUser): Promise<IUser> {
     return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users`, userInfos, { withCredentials: true }));
+  }
+
+  // put password
+  async putPassword(passwordData: IPasswordData): Promise<IUser> {
+    return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users/change-password`, passwordData, { withCredentials: true }));
+  }
+
+  // put email
+  async putEmail(emailData: IEmailData): Promise<IUser> {
+    return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users/change-email`, emailData, { withCredentials: true }));
   }
 
 

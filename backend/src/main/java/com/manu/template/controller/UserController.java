@@ -1,5 +1,7 @@
 package com.manu.template.controller;
 
+import com.manu.template.dto.MailChangeDTO;
+import com.manu.template.dto.PasswordChangeDTO;
 import com.manu.template.dto.UserInfoDTO;
 import com.manu.template.mapper.UserMapper;
 import com.manu.template.model.User;
@@ -38,9 +40,16 @@ public class UserController {
     }
 
     @Operation(summary = "Verify if username already exist")
-    @GetMapping("/exists/{username}")
+    @GetMapping("/exists/username/{username}")
     public ResponseEntity<Boolean> usernameExists(@PathVariable String username) {
         boolean exists = userService.usernameExist(username);
+        return ResponseEntity.ok(exists);
+    }
+
+    @Operation(summary = "Verify if email already exist")
+    @GetMapping("/exist/email/{{email}")
+    public ResponseEntity<Boolean> emailExists(@PathVariable String email) {
+        boolean exists = userService.emailExist(email);
         return ResponseEntity.ok(exists);
     }
 
@@ -50,7 +59,7 @@ public class UserController {
     public ResponseEntity<Map<String, String>> updateUserInfo(@AuthenticationPrincipal User user, @RequestBody UserInfoDTO userInfoDTO) {
         Map<String, String> response = new HashMap<>();
         if (user == null) {
-            response.put("message", "Utilisateur non authentifié");
+            response.put("message", "User not authenticated");
             response.put("status", "error");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
@@ -61,6 +70,51 @@ public class UserController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", "Erreur occurred when update User info " + e.getMessage() + " " + user.getId());
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @Operation(summary = "Change password")
+    @PutMapping("/change-password")
+    public ResponseEntity<Map<String, String>> updatePassword(@AuthenticationPrincipal User user, @RequestBody PasswordChangeDTO passwordDto) {
+        Map<String, String> response = new HashMap<>();
+        if (user == null) {
+            response.put("message", "User not authenticated");
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        try {
+            userService.passwordChange(user.getId(), passwordDto);
+            response.put("message", "User password update with success");
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            response.put("message", "Erreur occurred when update User password " + e.getMessage() + " " + user.getId());
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+
+    @Operation(summary = "Change email")
+    @PutMapping("/change-email")
+    public ResponseEntity<Map<String, String>> updateEmail(@AuthenticationPrincipal User user, @RequestBody MailChangeDTO mailChangeDTO) {
+        Map<String, String> response = new HashMap<>();
+        if (user == null) {
+            response.put("message", "User not authenticated");
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        try {
+            userService.mailChange(user.getId(), mailChangeDTO);
+            response.put("message", "User email update with success");
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            response.put("message", "Erreur occurred when update User email " + e.getMessage() + " " + user.getId());
             response.put("status", "error");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }

@@ -15,11 +15,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class PasswordChangeDTO {
-    @NotNull
-    private UUID userId;
+    @NotBlank
+    private String oldPassword;
 
     @NotBlank
-    @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String newPassword;
 
     @NotBlank
