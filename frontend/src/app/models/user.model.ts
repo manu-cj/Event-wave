@@ -31,6 +31,11 @@ export interface IEmailData {
   password: string;
 }
 
+export interface IChangeRoleData {
+  userId: string;
+  role: string;
+}
+
 export interface IUserPage {
   content: IUser[];
   pageable: {

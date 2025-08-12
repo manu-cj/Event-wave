@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {firstValueFrom, Observable} from 'rxjs';
-import {IEmailData, ILogin, IPasswordData, IRegister, IUser, IUserPage} from '../models/user.model';
+import {IChangeRoleData, IEmailData, ILogin, IPasswordData, IRegister, IUser, IUserPage} from '../models/user.model';
 import {environment} from '../../environment/environment';
 
 @Injectable({
@@ -67,6 +67,11 @@ export class UserService {
   // put email
   async putEmail(emailData: IEmailData): Promise<IUser> {
     return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users/change-email`, emailData, { withCredentials: true }));
+  }
+
+  // change role
+  async changeRole(changeRoleData: IChangeRoleData): Promise<IUser> {
+    return firstValueFrom(this.http.put<IUser>(`${this.baseUrl}/users/role`, changeRoleData, { withCredentials: true }));
   }
 
 

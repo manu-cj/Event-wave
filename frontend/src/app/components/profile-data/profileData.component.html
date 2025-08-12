@@ -117,16 +117,16 @@
                    placeholder="Enter current password" autocomplete="current-password">
           </div>
 
-          @if (emailError !== "") {
+          @if (emailChangeError !== "") {
             <div class="flex items-center gap-2 bg-red-100 border border-red-300 rounded-lg px-4 py-2">
               <span class="material-icons text-green-500 text-base"><lucide-angular [img]="XCircle" class="w-4 h-4 text-red-500"></lucide-angular></span>
-              <p class="text-red-700 text-sm font-medium">{{ emailError }}</p>
+              <p class="text-red-700 text-sm font-medium">{{ emailChangeError }}</p>
             </div>
           }
-          @if (emailSuccess !== "") {
+          @if (emailChangeSuccess !== "") {
             <div class="flex items-center gap-2 bg-green-100 border border-green-300 rounded-lg px-4 py-2">
               <span class="material-icons text-green-500 text-base"><lucide-angular [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-angular></span>
-              <p class="text-green-700 text-sm font-medium">{{ emailSuccess }}</p>
+              <p class="text-green-700 text-sm font-medium">{{ emailChangeSuccess }}</p>
             </div>
           }
           <button type="submit" (click)="putEmail()" class="bg-green-700 text-white py-2 rounded-lg font-semibold shadow hover:bg-green-600 transition cursor-pointer">Change email</button>

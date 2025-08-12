@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IEmailData, IUser} from '../../models/user.model';
+import {IEmailData, IPasswordData, IUser} from '../../models/user.model';
 import {UserService} from '../../service/user.service';
 import {FormsModule} from "@angular/forms";
 import {LucideAngularModule, CheckCircle, XCircle} from 'lucide-angular';
@@ -24,6 +24,7 @@ export class ProfileData implements OnInit {
 
   passwordChange: boolean = false;
   passwordError: string = '';
+  passwordSuccess: string = '';
 
   emailData: IEmailData = {} as IEmailData;
   emailAlreadyTaken: boolean = false;
@@ -122,6 +123,7 @@ export class ProfileData implements OnInit {
       if (result.status === 'success') {
         this.passwordChange = true;
         this.passwordError = '';
+        this.passwordSuccess = result.message;
         this.passwordData = {} as IPasswordData;
       }
       else if (result.status === 'error') {

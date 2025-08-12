@@ -2,13 +2,17 @@ package com.manu.template.controller;
 
 import com.manu.template.dto.MailChangeDTO;
 import com.manu.template.dto.PasswordChangeDTO;
+import com.manu.template.dto.UpdateRoleDto;
 import com.manu.template.dto.UserInfoDTO;
 import com.manu.template.mapper.UserMapper;
 import com.manu.template.model.User;
 import com.manu.template.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,7 @@ import java.util.UUID;
 @Tag(name = "Users")
 @RequiredArgsConstructor
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     @Operation(summary = "get all users")
@@ -47,7 +52,7 @@ public class UserController {
     }
 
     @Operation(summary = "Verify if email already exist")
-    @GetMapping("/exist/email/{{email}")
+    @GetMapping("/exist/email/{email}")
     public ResponseEntity<Boolean> emailExists(@PathVariable String email) {
         boolean exists = userService.emailExist(email);
         return ResponseEntity.ok(exists);
@@ -125,15 +130,17 @@ public class UserController {
     @Operation(summary = "Update user role")
     @PutMapping("role")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, String>> updateRole(@RequestBody String role, @RequestBody UUID userId) {
+    public ResponseEntity<Map<String, String>> updateRole(@Valid @RequestBody UpdateRoleDto dto) {
         Map<String, String> response = new HashMap<>();
+        log.info(dto.getRole() + " id: " + dto.getUserId());
         try {
-            userService.changeRole(role, userId);
+            userService.changeRole(dto);
             response.put("message", "Role change with success");
             response.put("status", "success");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("message", "Erreur occurred when change role " + e.getMessage());
+            log.error("Erreur lors du changement de rôle", e);
+            response.put("message", "Erreur occurred when change role " + dto.getRole() + " " + e.getMessage());
             response.put("status", "error");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
