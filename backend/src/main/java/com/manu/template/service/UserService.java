@@ -1,9 +1,6 @@
 package com.manu.template.service;
 
-import com.manu.template.dto.MailChangeDTO;
-import com.manu.template.dto.PasswordChangeDTO;
-import com.manu.template.dto.UserInfoDTO;
-import com.manu.template.dto.UserRegistrationDTO;
+import com.manu.template.dto.*;
 import com.manu.template.mapper.UserMapper;
 import com.manu.template.model.User;
 import com.manu.template.repository.UserRepository;
@@ -16,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,11 +69,12 @@ public class UserService {
     }
 
     @Transactional
-    public User changeRole(String role, UUID userId) {
-        User user = userRepository.findById(userId)
+    public User changeRole(UpdateRoleDto dto) {
+        User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        user.setRoles(Collections.singleton(role));
+        user.setRoles(new HashSet<>(Collections.singleton(dto.getRole())));
+
         return userRepository.save(user);
     }
 

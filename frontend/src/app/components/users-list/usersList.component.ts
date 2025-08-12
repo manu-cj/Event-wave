@@ -1,15 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IUserPage} from '../../models/user.model';
+import {IChangeRoleData, IUserPage} from '../../models/user.model';
 import {UserService} from '../../service/user.service';
 import {interval, Subject, takeUntil} from 'rxjs';
 import {FormsModule} from '@angular/forms';
-import {LucideAngularModule, Search, Ticket, Funnel} from 'lucide-angular';
+import {LucideAngularModule, Search, Ticket, Funnel, CircleUser, ShieldUser} from 'lucide-angular';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-users-list',
   imports: [
     FormsModule,
-    LucideAngularModule
+    LucideAngularModule,
+    NgClass
   ],
   templateUrl: './usersList.component.html',
 })
@@ -22,12 +24,20 @@ export class UsersList implements OnInit, OnDestroy {
   sortedColumn: string = 'createdAt';
   sortedDirection: string = 'desc';
   selectedFilter: string = '';
+  changeRoleData: IChangeRoleData = {} as IChangeRoleData;
+  notification: { type: string; message: string; show: boolean } = {
+    type: '',
+    message: '',
+    show: false
+  }
   @Input() token!: string;
   private destroy$ = new Subject<void>();
 
   // Icons
-  readonly Search = Search;
-  readonly Funnel = Funnel;
+  protected readonly Search = Search;
+  protected readonly Funnel = Funnel;
+  protected readonly CircleUser = CircleUser;
+  protected readonly ShieldUser = ShieldUser;
 
   constructor(
     private api: UserService,
@@ -101,6 +111,52 @@ export class UsersList implements OnInit, OnDestroy {
     this.loadUsers();
   }
 
+  changeRole(userId: string, role: string) : void {
+    this.changeRoleData.role = role;
+    this.changeRoleData.userId = userId;
+    console.log(this.changeRoleData)
+    this.api.changeRole(this.changeRoleData)
+      .then((response: any) => {
+        if (response.status === "success") {
+          this.notification = {
+            type: 'success',
+            message: 'Role change with success.',
+            show: true
+          };
+          setTimeout(() => {
+            this.notification = {
+              type: 'success',
+              message: '',
+              show: false
+            };
+          }, 5000)
+          this.loadUsers();
+        } else {
+          this.notification = {
+            type: 'error',
+            message: 'Error when you change role',
+            show: true
+          };
+
+          setTimeout(() => {
+            this.notification = {
+              type: 'error',
+              message: '',
+              show: false
+            };
+          }, 5000)
+        }
+      })
+      .catch(() => {
+        this.notification = {
+          type: 'error',
+          message: 'Erreur lors du changement de rôle.',
+          show: true
+        };
+      });
+
+  }
+
   nextPage() : void {
     this.page++;
     this.loadUsers();
@@ -112,6 +168,4 @@ export class UsersList implements OnInit, OnDestroy {
       this.loadUsers();
     }
   }
-
-  protected readonly Ticket = Ticket;
 }

@@ -29,6 +29,17 @@ public class DataInitializer {
                         .build();
                 userRepository.save(user);
             }
+            if (userRepository.findByEmail("manu2@gmail.com").isEmpty()) {
+                User user = User.builder()
+                        .username("Manu2-cj")
+                        .email("manu2@gmail.com")
+                        .firstname("Manu2")
+                        .lastname("Crj2")
+                        .password(passwordEncoder.encode("motdepasse"))
+                        .roles(Collections.singleton("ADMIN"))
+                        .build();
+                userRepository.save(user);
+            }
 
             if (eventRepository.findByTitle("Confèrence Angular").isEmpty()) {
                 Event event = Event.builder()
