@@ -7,7 +7,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
+@EqualsAndHashCode
 public class UserInfoDTO {
     private UUID id;
     private String username;
