@@ -12,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import javax.annotation.meta.When;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -137,5 +139,48 @@ public class LogsServiceTest {
         // Assert
         verify(logsRepository).findById(logs.getId());
         assertThat(result).usingRecursiveComparison().isEqualTo(logsDTO);
+    }
+
+    @Test
+    void should_throwException_whenLogsNotFound() {
+        // Arrange
+        User user = buildUser();
+        Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
+
+        when(logsRepository.findById(logs.getId())).thenReturn(Optional.empty());
+
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class, () -> logsService.findById(logs.getId()));
+        assertTrue(exception.getMessage() == "Logs not found");
+    }
+
+    @Test
+    void should_findAll() {
+        User user = buildUser();
+        Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
+        Logs logs2 = buildLogs(ActionType.Create, user, "Create a new event");
+
+        List<Logs> logsList = new ArrayList<>(List.of(
+                logs,
+                logs2
+        ));
+
+        UserInfoDTO userInfoDTO = buildUserInfoDTO(user);
+        List<LogsDTO> expectedDTOs = logsList.stream()
+                .map(l -> buildLogsDTO(l, userInfoDTO))
+                .toList();
+
+        List<LogsDTO> expectedDTOs2 = logsList.stream()
+                .map(l -> buildLogsDTO(l, userInfoDTO))
+                .toList();
+
+        when(logsRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(logsList));
+
+        Page<LogsDTO> result = logsService.findAll(PageRequest.of(0, 10));
+
+        verify(logsRepository).findAll(any(Pageable.class));
+        assertEquals(2, result.getContent().size());
+        assertThat(result.getContent()).usingRecursiveComparison().isEqualTo(expectedDTOs);
+        assertThat(result.getContent()).usingRecursiveComparison().isEqualTo(expectedDTOs2);
     }
 }
