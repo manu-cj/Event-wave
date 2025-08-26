@@ -32,6 +32,4 @@ public class Logs {
     @Column(updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
-
-
 }
