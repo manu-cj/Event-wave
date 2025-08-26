@@ -51,5 +51,12 @@ public class LogsService {
                 .map(LogsMapper::toDto);
     }
 
+    public Page<LogsDTO> findByActionType(String actionType,Pageable pageable) {
+        return logsRepository.findByActionTypeIgnoreCaseContaining(actionType,pageable)
+                .map(LogsMapper::toDto);
+    }
+
+
+
 
 }

@@ -156,6 +156,7 @@ public class LogsServiceTest {
 
     @Test
     void should_findAll() {
+        // Arrange
         User user = buildUser();
         Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
         Logs logs2 = buildLogs(ActionType.Create, user, "Create a new event");
@@ -170,17 +171,52 @@ public class LogsServiceTest {
                 .map(l -> buildLogsDTO(l, userInfoDTO))
                 .toList();
 
-        List<LogsDTO> expectedDTOs2 = logsList.stream()
+        when(logsRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(logsList));
+
+        // Act
+        Page<LogsDTO> result = logsService.findAll(PageRequest.of(0, 10));
+
+        // Assert
+        verify(logsRepository).findAll(any(Pageable.class));
+        assertEquals(2, result.getContent().size());
+        assertThat(result.getContent().get(0)).usingRecursiveComparison().isEqualTo(expectedDTOs.get(0));
+        assertThat(result.getContent().get(1)).usingRecursiveComparison().isEqualTo(expectedDTOs.get(1));
+    }
+
+
+    @Test
+    void should_findByActionType() {
+        // Arrange
+        User user = buildUser();
+        Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
+        Logs logs2 = buildLogs(ActionType.Update, user, "Create a new event");
+
+        List<Logs> logsList = new ArrayList<>(List.of(
+                logs,
+                logs2
+        ));
+
+        UserInfoDTO userInfoDTO = buildUserInfoDTO(user);
+        List<LogsDTO> expectedDTOs = logsList.stream()
                 .map(l -> buildLogsDTO(l, userInfoDTO))
                 .toList();
 
-        when(logsRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(logsList));
 
-        Page<LogsDTO> result = logsService.findAll(PageRequest.of(0, 10));
 
-        verify(logsRepository).findAll(any(Pageable.class));
+        when(logsRepository.findByActionTypeIgnoreCaseContaining(anyString(),any(Pageable.class))).thenReturn(new PageImpl<>(logsList));
+
+        // Act
+        Page<LogsDTO> result = logsService.findByActionType("Create",PageRequest.of(0, 10));
+
+        // Assert
+        verify(logsRepository).findByActionTypeIgnoreCaseContaining(anyString(),any(Pageable.class));
         assertEquals(2, result.getContent().size());
-        assertThat(result.getContent()).usingRecursiveComparison().isEqualTo(expectedDTOs);
-        assertThat(result.getContent()).usingRecursiveComparison().isEqualTo(expectedDTOs2);
+        assertEquals("Create", expectedDTOs.get(0).getActionType().name());
+        assertEquals("Update", expectedDTOs.get(1).getActionType().name());
+        assertEquals(ActionType.Create, expectedDTOs.get(0).getActionType());
+        assertEquals(ActionType.Update, expectedDTOs.get(1).getActionType());
     }
+
+
+
 }
