@@ -7,17 +7,16 @@ import com.manu.template.model.Logs;
 import com.manu.template.model.User;
 import com.manu.template.repository.LogsRepository;
 import com.manu.template.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import javax.annotation.meta.When;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -74,6 +73,7 @@ public class LogsServiceTest {
                 .author(userInfoDTO)
                 .description(logs.getDescription())
                 .actionType(logs.getActionType())
+                .createdAt(logs.getCreatedAt())
                 .build();
     }
 
@@ -106,8 +106,8 @@ public class LogsServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> logsService.save(logs));
-        assertTrue(exception.getMessage() == "User not found");
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> logsService.save(logs));
+        assertEquals("User not found", exception.getMessage());
     }
 
     @Test
@@ -150,8 +150,8 @@ public class LogsServiceTest {
         when(logsRepository.findById(logs.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> logsService.findById(logs.getId()));
-        assertTrue(exception.getMessage() == "Logs not found");
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> logsService.findById(logs.getId()));
+        assertEquals("Logs not found", exception.getMessage());
     }
 
     @Test
@@ -159,7 +159,7 @@ public class LogsServiceTest {
         // Arrange
         User user = buildUser();
         Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
-        Logs logs2 = buildLogs(ActionType.Create, user, "Create a new event");
+        Logs logs2 = buildLogs(ActionType.Create, user, "Update a new event");
 
         List<Logs> logsList = new ArrayList<>(List.of(
                 logs,
