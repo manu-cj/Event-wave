@@ -1,6 +1,5 @@
 package com.manu.template.repository;
 
-import com.manu.template.model.Event;
 import com.manu.template.model.Logs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
