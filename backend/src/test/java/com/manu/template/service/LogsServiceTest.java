@@ -90,7 +90,7 @@ public class LogsServiceTest {
         when(logsRepository.save(any())).thenReturn(logs);
 
         // Act
-        LogsDTO result = logsService.save(logs);
+        LogsDTO result = logsService.save(logsDTO);
 
         // Assert
         verify(logsRepository).save(any(Logs.class));
@@ -103,10 +103,12 @@ public class LogsServiceTest {
         User user = buildUser();
         Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
 
+        UserInfoDTO userInfoDTO = buildUserInfoDTO(user);
+        LogsDTO logsDTO = buildLogsDTO(logs, userInfoDTO);
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        Exception exception = assertThrows(EntityNotFoundException.class, () -> logsService.save(logs));
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> logsService.save(logsDTO));
         assertEquals("User not found", exception.getMessage());
     }
 
@@ -116,11 +118,14 @@ public class LogsServiceTest {
         User user = buildUser();
         Logs logs = buildLogs(ActionType.Create, user, "Create a new event");
 
+        UserInfoDTO userInfoDTO = buildUserInfoDTO(user);
+        LogsDTO logsDTO = buildLogsDTO(logs, userInfoDTO);
+
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(logsRepository.save(any())).thenThrow(new IllegalStateException("DB error"));
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> logsService.save(logs));
+        Exception exception = assertThrows(RuntimeException.class, () -> logsService.save(logsDTO));
         assertEquals("Error occurred when we create a new log", exception.getMessage());
     }
 
