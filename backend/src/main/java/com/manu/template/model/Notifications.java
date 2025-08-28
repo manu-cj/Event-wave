@@ -31,4 +31,8 @@ public class Notifications {
     @Column(updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public void markAsRead() {
+        this.setRead(true);
+    }
 }

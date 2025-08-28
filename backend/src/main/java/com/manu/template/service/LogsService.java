@@ -22,10 +22,13 @@ public class LogsService {
     private final UserRepository userRepository;
 
 
-    public LogsDTO save(Logs logs) {
+    public LogsDTO save(LogsDTO logsDto) {
         try {
-            userRepository.findById(logs.getAuthor().getId())
+            Logs logs = LogsMapper.toEntity(logsDto);
+            User user = userRepository.findById(logs.getAuthor().getId())
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+            logs.setAuthor(user);
 
             Logs saved = logsRepository.save(logs);
 
