@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -63,8 +64,18 @@ public class NotificationsService {
         catch (Exception e) {
             throw new RuntimeException("Error occurred when we create a notification");
         }
+    }
 
-
-
+    public List<NotificationsDTO> markAllAsRead(UUID authorId) {
+        try {
+            List<Notifications> notifications = notificationsRepository.findByAuthorId(authorId, Pageable.unpaged()).getContent();
+            notifications.forEach(Notifications::markAsRead);
+            notificationsRepository.saveAll(notifications);
+            return notifications.stream()
+                    .map(NotificationsMapper::toDto)
+                    .toList();
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred when updated all notifications", e);
+        }
     }
 }

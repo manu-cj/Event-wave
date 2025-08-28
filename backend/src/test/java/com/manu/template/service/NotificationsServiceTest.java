@@ -178,4 +178,37 @@ public class NotificationsServiceTest {
         verify(notificationsRepository).save(any(Notifications.class));
         assertTrue(result.isRead());
     }
+
+    @Test
+    void should_updateAllNotificationInRead() {
+        // Arrange
+        User user = buildUser();
+        Notifications notifications = buildNotifications(user, "Your event start soon");
+        Notifications notifications2 = buildNotifications(user, "Your reservation has been reserved");
+
+        List<Notifications> notificationsList = new ArrayList<>(List.of(
+                notifications,
+                notifications2
+        ));
+
+        notificationsList.forEach(Notifications::markAsRead);
+
+        UserInfoDTO userInfoDTO = buildUserInfoDTO(user);
+        List<NotificationsDTO> expectedDTOs = notificationsList.stream()
+                .map(n -> buildNotificationsDTO(n, userInfoDTO))
+                .toList();
+
+
+        when(notificationsRepository.findByAuthorId(eq(user.getId()), any(Pageable.class))).thenReturn(new PageImpl<>(notificationsList));
+        when(notificationsRepository.saveAll(anyCollection())).thenReturn(notificationsList);
+
+        // Act
+        List<NotificationsDTO> result = notificationsService.markAllAsRead(user.getId());
+
+        // Assert
+        verify(notificationsRepository).findByAuthorId(eq(user.getId()), any(Pageable.class));
+        verify(notificationsRepository).saveAll(anyCollection());
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedDTOs);
+        assertTrue(result.stream().allMatch(NotificationsDTO::isRead));
+    }
 }
