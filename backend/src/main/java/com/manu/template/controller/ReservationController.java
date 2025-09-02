@@ -70,12 +70,12 @@ public class ReservationController {
     @GetMapping("/user")
     public ResponseEntity<Page<ReservationDTO>> findByUser(@AuthenticationPrincipal User user, Pageable pageable) {
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Utilisateur non authentifié");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
         }
 
         Page<ReservationDTO> response = reservationService.findByUserId(user.getId(), pageable);
         if (response.isEmpty()) {
-            ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(response);
     }

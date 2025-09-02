@@ -172,7 +172,7 @@ public class NotificationsServiceTest {
         when(notificationsRepository.save(any())).thenReturn(notifications);
 
         // Act
-        NotificationsDTO result = notificationsService.isRead(notificationsDTO.getId());
+        NotificationsDTO result = notificationsService.markAsRead(notificationsDTO.getId());
 
         // Assert
         verify(notificationsRepository).save(any(Notifications.class));
@@ -197,7 +197,6 @@ public class NotificationsServiceTest {
         List<NotificationsDTO> expectedDTOs = notificationsList.stream()
                 .map(n -> buildNotificationsDTO(n, userInfoDTO))
                 .toList();
-
 
         when(notificationsRepository.findByAuthorId(eq(user.getId()), any(Pageable.class))).thenReturn(new PageImpl<>(notificationsList));
         when(notificationsRepository.saveAll(anyCollection())).thenReturn(notificationsList);
