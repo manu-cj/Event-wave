@@ -48,7 +48,7 @@ public class NotificationsService {
                 .map(NotificationsMapper::toDto);
     }
 
-    public NotificationsDTO isRead(UUID id) {
+    public NotificationsDTO markAsRead(UUID id) {
         try {
             Notifications notifications = notificationsRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Notification not found"));
@@ -62,7 +62,7 @@ public class NotificationsService {
             throw e;
         }
         catch (Exception e) {
-            throw new RuntimeException("Error occurred when we create a notification");
+            throw new RuntimeException("Error occurred when marking notification as read");
         }
     }
 
